@@ -1,0 +1,73 @@
+{
+  "name": "tough-love-arena",
+  "version": "0.67.0",
+  "description": "Create desktop applications for toughlovearena.com",
+  "author": "M. Paul Weeks and Amy Xu",
+  "license": "MIT",
+  "main": "src/main.js",
+  "repository": "github:toughlovearena/download.toughlovearena.com",
+  "engines": {
+    "node": ">=14.17.1",
+    "npm": ">=6.14.13"
+  },
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "fetch": "node bin/fetch.js",
+    "start": "electron .",
+    "ebuild": "electron-builder --mac --windows --linux",
+    "erelease": "electron-builder --mac --windows --linux --publish always"
+  },
+  "build": {
+    "appId": "com.toughlovearena.desktop",
+    "productName": "Tough Love Arena",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "toughlovearena",
+        "repo": "download.toughlovearena.com"
+      }
+    ],
+    "afterSign": "electron-builder-notarize",
+    "mac": {
+      "category": "public.app-category.games",
+      "hardenedRuntime": true
+    },
+    "dmg": {
+      "icon": false
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Game"
+    },
+    "files": [
+      "**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!.editorconfig",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+      "!**/{appveyor.yml,.travis.yml,circle.yml}",
+      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
+      "!bin/**/*",
+      "!dist/**/*",
+      "!out/**/*"
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^4.3.9"
+  },
+  "devDependencies": {
+    "decompress": "^4.2.1",
+    "delete": "^1.1.0",
+    "electron": "^13.1.4",
+    "electron-builder": "^22.11.7",
+    "electron-builder-notarize": "^1.2.0",
+    "node-fetch": "^2.6.1"
+  }
+}
