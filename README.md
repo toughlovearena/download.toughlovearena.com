@@ -1,6 +1,6 @@
 # download.toughlovearena.com
 
-![icon](build/icon.png)
+<img src="build/icon.png" width="500" height="auto">
 
 ⚠️ THE LAUNCHER IS STILL WIP, PLEASE DO NOT DOWNLOAD ANYTHING YET ⚠️
 
