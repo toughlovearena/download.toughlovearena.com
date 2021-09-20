@@ -1,5 +1,7 @@
 # download.toughlovearena.com
 
+![icon](build/icon.png)
+
 ⚠️ THE LAUNCHER IS STILL WIP, PLEASE DO NOT DOWNLOAD ANYTHING YET ⚠️
 
 You can download the latest version of Tough Love Arena on the [Releases page](https://github.com/toughlovearena/download.toughlovearena.com/releases)
