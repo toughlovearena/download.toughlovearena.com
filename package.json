@@ -63,11 +63,12 @@
     "electron-updater": "^4.3.9"
   },
   "devDependencies": {
-    "decompress": "^4.2.1",
+    "7zip-bin": "^5.1.1",
     "delete": "^1.1.0",
     "electron": "^13.1.4",
     "electron-builder": "^22.11.7",
     "electron-builder-notarize": "^1.2.0",
+    "node-7z": "^3.0.0",
     "node-fetch": "^2.6.1"
   }
 }

@@ -3,10 +3,10 @@ const fs = require('fs');
 const path = {
   latestDist: 'app',
   latestVersion: 'app/version.json',
-  tempDist: 'fetch.zip',
+  tempDist: 'fetch.7z',
   packageJson: 'package.json',
   remoteVersion: 'http://storage.googleapis.com/fighter-html/version.json',
-  remoteDist: (version) => `http://storage.googleapis.com/fighter-html/${version}.zip`,
+  remoteDist: (version) => `http://storage.googleapis.com/fighter-html/${version}.7z`,
 };
 
 function replaceLine(path, before, after) {

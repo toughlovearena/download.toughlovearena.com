@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"7zip-bin@~5.1.1":
+"7zip-bin@^5.1.1", "7zip-bin@~5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/7zip-bin/-/7zip-bin-5.1.1.tgz#9274ec7460652f9c632c59addf24efb1684ef876"
   integrity sha512-sAP4LldeWNz0lNzmTird3uWfFDWWTeg6V/MsmyyLR9X1idwKBWIgt/ZvinqQldJm3LecKEs1emkbquO6PCiLVQ==
@@ -1528,15 +1528,40 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+lodash.defaultsdeep@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
+  integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
+
+lodash.defaultto@^4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/lodash.defaultto/-/lodash.defaultto-4.14.0.tgz#38bd3d425acee733e0e2bbbd4e4b29711cc2ee11"
+  integrity sha1-OL09QlrO5zPg4ru9TkspcRzC7hE=
+
 lodash.escaperegexp@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.escaperegexp/-/lodash.escaperegexp-4.1.2.tgz#64762c48618082518ac3df4ccf5d5886dae20347"
   integrity sha1-ZHYsSGGAglGKw99Mz11YhtriA0c=
 
+lodash.flattendeep@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
+  integrity sha1-+wMJF/hqMTTlvJvsDWngAT3f7bI=
+
+lodash.isempty@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.isempty/-/lodash.isempty-4.4.0.tgz#6f86cbedd8be4ec987be9aaf33c9684db1b31e7e"
+  integrity sha1-b4bL7di+TsmHvpqvM8loTbGzHn4=
+
 lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
   integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
+
+lodash.negate@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/lodash.negate/-/lodash.negate-3.0.2.tgz#9c897b0bf610019e0b43b8ff3f0afef3d7b66f34"
+  integrity sha1-nIl7C/YQAZ4LQ7j/Pwr+89e2bzQ=
 
 lodash@^4.17.10, lodash@^4.17.15:
   version "4.17.21"
@@ -1632,6 +1657,19 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
+node-7z@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/node-7z/-/node-7z-3.0.0.tgz#42f71c5a43b00028749f7c88291a7abf2e2623e3"
+  integrity sha512-KIznWSxIkOYO/vOgKQfJEaXd7rgoFYKZbaurainCEdMhYc7V7mRHX+qdf2HgbpQFcdJL/Q6/XOPrDLoBeTfuZA==
+  dependencies:
+    debug "^4.3.2"
+    lodash.defaultsdeep "^4.6.1"
+    lodash.defaultto "^4.14.0"
+    lodash.flattendeep "^4.4.0"
+    lodash.isempty "^4.4.0"
+    lodash.negate "^3.0.2"
+    normalize-path "^3.0.0"
+
 node-addon-api@^1.6.3:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/node-addon-api/-/node-addon-api-1.7.2.tgz#3df30b95720b53c24e59948b49532b662444f54d"
@@ -1651,6 +1689,11 @@ normalize-package-data@^2.5.0:
     resolve "^1.10.0"
     semver "2 || 3 || 4 || 5"
     validate-npm-package-license "^3.0.1"
+
+normalize-path@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
+  integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
 normalize-url@^4.1.0:
   version "4.5.1"

@@ -1,6 +1,7 @@
 # Custom
 /app/
 /fetch.zip
+/fetch.7z
 
 # electron-forge
 /out/
