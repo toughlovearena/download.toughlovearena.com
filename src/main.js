@@ -53,15 +53,15 @@ app.on('window-all-closed', function () {
 
 // https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/#auto-update
 app.on("ready", () => {
+  let downloadPromise = undefined;
   checkForUpdates();
   setInterval(() => {
-    checkForUpdates();
+    if (downloadPromise) { return; }
+    downloadPromise = checkForUpdates();
   }, 1000 * 60 * 5);
 });
 
-let downloadPromise = undefined;
 async function checkForUpdates() {
-  if (downloadPromise) { return; }
   try {
     const result = await autoUpdater.checkForUpdatesAndNotify();
     // const result = await autoUpdater.checkForUpdates();
@@ -73,6 +73,7 @@ async function checkForUpdates() {
           mainWindow.webContents.send('download-complete');
         }
       });
+      return downloadPromise;
     }
   } catch (err) {
     // Ignore errors thrown because user is not connected to internet
