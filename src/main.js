@@ -6,10 +6,9 @@ const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const path = require('path');
 
-let mainWindow = undefined;
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
     webPreferences: {
