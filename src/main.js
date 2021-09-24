@@ -63,22 +63,18 @@ function startCheckingForUpdates() {
 };
 
 async function checkForUpdates() {
-  const mainWindow = BrowserWindow.getAllWindows()[0];
-  if (mainWindow) {
-    console.log('sending ipc');
-    mainWindow.webContents.send('download-attempt');
-  } else {
-    console.log('window is not ready');
-  }
   try {
     const result = await autoUpdater.checkForUpdatesAndNotify();
-    // const result = await autoUpdater.checkForUpdates();
     if (result && result.downloadPromise) {
       downloadPromise = result.downloadPromise;
+      const mainWindow = BrowserWindow.getAllWindows()[0];
+      if (mainWindow) {
+        mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_START = true;");
+      }
       downloadPromise.then(() => {
         const mainWindow = BrowserWindow.getAllWindows()[0];
         if (mainWindow) {
-          mainWindow.webContents.send('download-complete');
+          mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_COMPLETE = true;");
         }
       });
       return downloadPromise;
