@@ -6,9 +6,10 @@ const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const path = require('path');
 
+let mainWindow = undefined;
 function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
     webPreferences: {
@@ -59,9 +60,21 @@ app.on("ready", () => {
   }, 1000 * 60 * 5);
 });
 
+let downloadPromise = undefined;
 async function checkForUpdates() {
+  if (downloadPromise) { return; }
   try {
-    await autoUpdater.checkForUpdatesAndNotify();
+    const result = await autoUpdater.checkForUpdatesAndNotify();
+    // const result = await autoUpdater.checkForUpdates();
+    if (result && result.downloadPromise) {
+      downloadPromise = result.downloadPromise;
+      downloadPromise.then(() => {
+        const mainWindow = BrowserWindow.getAllWindows()[0];
+        if (mainWindow) {
+          mainWindow.webContents.send('download-complete');
+        }
+      });
+    }
   } catch (err) {
     // Ignore errors thrown because user is not connected to internet
     if (err.message !== "net::ERR_INTERNET_DISCONNECTED") {
