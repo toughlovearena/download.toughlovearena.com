@@ -54,30 +54,28 @@ app.on('window-all-closed', function () {
 
 // https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/#auto-update
 function startCheckingForUpdates() {
-  let downloadPromise = undefined;
+  let downloadHasStarted = undefined;
   checkForUpdates();
-  setInterval(() => {
-    if (downloadPromise) { return; }
-    downloadPromise = checkForUpdates();
+  setInterval(async () => {
+    if (downloadHasStarted) { return; }
+    downloadHasStarted = !!(await checkForUpdates());
   }, 1000 * 60 * 5);
 };
 
 async function checkForUpdates() {
   try {
     const result = await autoUpdater.checkForUpdatesAndNotify();
+    // UpdateCheckResult is truthy if in packaged app
+    // UpdateCheckResult.downloadPromise is truthy is update is available and download has started
     if (result && result.downloadPromise) {
-      downloadPromise = result.downloadPromise;
       const mainWindow = BrowserWindow.getAllWindows()[0];
       if (mainWindow) {
-        mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_START = true;");
-      }
-      downloadPromise.then(() => {
-        const mainWindow = BrowserWindow.getAllWindows()[0];
-        if (mainWindow) {
+        mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_STARTED = true;");
+        result.downloadPromise.then(() => {
           mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_COMPLETE = true;");
-        }
-      });
-      return downloadPromise;
+        });
+      }
+      return result.downloadPromise;
     }
   } catch (err) {
     // Ignore errors thrown because user is not connected to internet
