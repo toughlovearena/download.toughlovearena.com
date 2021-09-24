@@ -28,6 +28,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
+  startCheckingForUpdates();
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -52,16 +53,30 @@ app.on('window-all-closed', function () {
 // code. You can also put them in separate files and require them here.
 
 // https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/#auto-update
-app.on("ready", () => {
+function startCheckingForUpdates() {
+  let downloadHasStarted = undefined;
   checkForUpdates();
-  setInterval(() => {
-    checkForUpdates();
+  setInterval(async () => {
+    if (downloadHasStarted) { return; }
+    downloadHasStarted = !!(await checkForUpdates());
   }, 1000 * 60 * 5);
-});
+};
 
 async function checkForUpdates() {
   try {
-    await autoUpdater.checkForUpdatesAndNotify();
+    const result = await autoUpdater.checkForUpdatesAndNotify();
+    // UpdateCheckResult is truthy if in packaged app
+    // UpdateCheckResult.downloadPromise is truthy is update is available and download has started
+    if (result && result.downloadPromise) {
+      const mainWindow = BrowserWindow.getAllWindows()[0];
+      if (mainWindow) {
+        mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_STARTED = true;");
+        result.downloadPromise.then(() => {
+          mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_COMPLETE = true;");
+        });
+      }
+      return result.downloadPromise;
+    }
   } catch (err) {
     // Ignore errors thrown because user is not connected to internet
     if (err.message !== "net::ERR_INTERNET_DISCONNECTED") {
