@@ -28,6 +28,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
+  startCheckingForUpdates();
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -52,16 +53,23 @@ app.on('window-all-closed', function () {
 // code. You can also put them in separate files and require them here.
 
 // https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/#auto-update
-app.on("ready", () => {
+function startCheckingForUpdates() {
   let downloadPromise = undefined;
   checkForUpdates();
   setInterval(() => {
     if (downloadPromise) { return; }
     downloadPromise = checkForUpdates();
   }, 1000 * 60 * 5);
-});
+};
 
 async function checkForUpdates() {
+  const mainWindow = BrowserWindow.getAllWindows()[0];
+  if (mainWindow) {
+    console.log('sending ipc');
+    mainWindow.webContents.send('download-attempt');
+  } else {
+    console.log('window is not ready');
+  }
   try {
     const result = await autoUpdater.checkForUpdatesAndNotify();
     // const result = await autoUpdater.checkForUpdates();
