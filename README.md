@@ -1,6 +1,6 @@
 # download.toughlovearena.com
 
-Download a desktop version of Tough Love Arena that works offline!
+Download a desktop version of [Tough Love Arena](https://toughlovearena.com) that works offline!
 
 <p align="center">
   <img src="docs/desktop.jpg" style="width:100%; height:auto; max-width:600px;">
