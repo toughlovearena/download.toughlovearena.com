@@ -3,7 +3,7 @@
 Download a desktop version of Tough Love Arena that works offline!
 
 <p align="center">
-  <img src="build/icon.png" width="500" height="auto">
+  <img src="docs/desktop.jpg" style="width:100%; height:auto; max-width:600px;">
 </p>
 
 ⚠️ THE DESKTOP VERSION IS NEW AND MAY HAVE BUGS. PLEASE USE THE WEBSITE WHEN POSSIBLE ⚠️
