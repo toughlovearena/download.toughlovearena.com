@@ -23,6 +23,12 @@ Once you provide these secrets, [release.yml](.github/workflows/release.yml) wil
   - `api_key_id`: Key ID found on App Store Connect
   - `api_key_issuer_id`: Issuer ID found on App Store Connect
 
+## debugging mac errors
+
+> You must first sign the relevant contracts online.
+
+Check https://developer.apple.com/account/ to see if you need to sign any agreements
+
 ## credits
 
 Big thanks to the following resources/guides:
