@@ -15,6 +15,7 @@ You can download the latest version of Tough Love Arena via [GitHub Releases](ht
 - Windows: Download `Tough-Love-Arena-Setup-X.X.X.exe` and run it to install
   - NOTE: You will see a warning the first time you install. This is expected. Windows certification is coming soon!
 - Mac: Download `Tough-Love-Arena-X.X.X.dmg`, open it, and drag Tough Love Arena into your Applications folder
+  - NOTE: If you have a previous version installed, replace it with the new one. Your settings will be preserved
 - Linux: Download `Tough-Love-Arena-X.X.X.AppImage`, [make the file executable](https://itsfoss.com/use-appimage-linux/), and then run it
 
 ### PLEASE READ THESE IMPORTANT NOTES
