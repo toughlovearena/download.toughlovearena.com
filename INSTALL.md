@@ -2,9 +2,21 @@
 
 Most of the heavy work is already done via GitHub actions and node scripts. It just needs a little help setting up.
 
-## setting up GitHub Secrets
+## setting up
 
-Once you provide these secrets, [release.yml](.github/workflows/release.yml) will do the rest
+Important things to know about this repository and workflow.
+
+### triggering run
+
+[release.yml](.github/workflows/release.yml) is currently triggered when a new version tag is pushed to remote. These are the steps:
+
+- Load in platform secrets stored in GitHub repo settings (see below)
+- Fetches the TLA zip file matching the version in this repo's [package.json](package.json)
+  - This assumes the version in package.json matches the inciting tag
+  - This is currently ensured by a script in the closed-source main TLA repo
+- Build the electron app (currently for 3 platforms)
+  - Each app is appending to a draft release matching the inciting tag
+- Publish the above draft release
 
 ### mac signing
 
@@ -23,11 +35,21 @@ Once you provide these secrets, [release.yml](.github/workflows/release.yml) wil
   - `api_key_id`: Key ID found on App Store Connect
   - `api_key_issuer_id`: Issuer ID found on App Store Connect
 
-## debugging mac errors
+### steam app
+
+- Create a specialized Steam [builder account](https://partner.steamgames.com/doc/sdk/uploading#Build_Account) with the following permissions:
+  - `Edit App Metadata`
+  - `Publish App Changes To Steam`
+
+## debug
+
+Lessons learned the hard way
+
+### mac errors
 
 > You must first sign the relevant contracts online.
 
-Check https://developer.apple.com/account/ to see if you need to sign any agreements
+Check https://developer.apple.com/account/ to see if you need to sign any new agreements
 
 ## credits
 
