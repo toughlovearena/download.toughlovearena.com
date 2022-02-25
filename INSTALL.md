@@ -52,7 +52,9 @@ Built on top of [game-ci/steam-deploy](https://github.com/game-ci/steam-deploy)
   - `./steamcmd +login "username" "password" +quit` to login locally
     - Complete the MFA login by entering the emailed OPT
     - Verify success by running the command again - it should not ask for MFA
-  - todo
+  - There should a recently edited `.vdf` file. Base64 encode it to create the secret `STEAM_CONFIG_VDF`
+    - e.g. `cat update_hosts_cached.vdf | base64`
+  - todo where to find ssfnFileName ???
 - In your project's GitHub repository, go to Settings → Secrets and add the following variables:
   - `STEAM_APP_ID`: AppId found on the [dashboard](https://partner.steamgames.com/dashboard)
   - `STEAM_USERNAME`: Username for builder account
