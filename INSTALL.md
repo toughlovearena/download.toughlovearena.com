@@ -37,9 +37,29 @@ Important things to know about this repository and workflow.
 
 ### steam app
 
+Built on top of [game-ci/steam-deploy](https://github.com/game-ci/steam-deploy)
+
 - Create a specialized Steam [builder account](https://partner.steamgames.com/doc/sdk/uploading#Build_Account) with the following permissions:
   - `Edit App Metadata`
   - `Publish App Changes To Steam`
+- Setup 2FA for your builder account (do this on your local dev machine)
+  - Download the [Steamworks SDK](https://partner.steamgames.com/downloads/steamworks_sdk.zip)
+    - NOTE: Download link only works if you are already logged into partner.steamgames.com
+  - Unzip and cd into `tools\ContentBuilder\builder_osx`
+  - `chmod +x steamcmd` to enable the main tool
+  - `bash ./steam.sh` to trigger the auto-updater and load the CLI
+    - `quit` to exit the CLI
+  - `./steamcmd +login "username" "password" +quit` to login locally
+    - Complete the MFA login by entering the emailed OPT
+    - Verify success by running the command again - it should not ask for MFA
+  - todo
+- In your project's GitHub repository, go to Settings → Secrets and add the following variables:
+  - `STEAM_APP_ID`: AppId found on the [dashboard](https://partner.steamgames.com/dashboard)
+  - `STEAM_USERNAME`: Username for builder account
+  - `STEAM_PASSWORD`: Password for builder account
+  - `STEAM_CONFIG_VDF`: todo
+  - `STEAM_SSFN_FILE_NAME`:
+  - `STEAM_SSFN_FILE_CONTENTS`:
 
 ## debug
 

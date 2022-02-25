@@ -1,0 +1,22 @@
+name: Steam Manual Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deployToSteam:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: game-ci/steam-deploy@v1
+        with:
+          appId: ${{ secrets.STEAM_APP_ID }}
+          username: ${{ secrets.STEAM_USERNAME }}
+          password: ${{ secrets.STEAM_PASSWORD }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
+          ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
+          ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
+          buildDescription: v1.2.3
+          rootPath: build
+          depot1Path: StandaloneWindows64
+          depot2Path: StandaloneLinux64
+          releaseBranch: prerelease
