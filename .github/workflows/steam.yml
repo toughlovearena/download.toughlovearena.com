@@ -27,8 +27,7 @@ jobs:
           configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
           ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
           ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
-          buildDescription: v1.2.3
-          rootPath: steam
-          depot1Path: osx
-          # depot2Path: StandaloneLinux64
+          buildDescription: v0.0.1
+          rootPath: steam # see bin/steam.js
+          depot1Path: osx # see bin/steam.js
           releaseBranch: github
