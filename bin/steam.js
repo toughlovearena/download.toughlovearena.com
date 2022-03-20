@@ -3,17 +3,17 @@ const deleter = require('delete');
 const fetch = require('node-fetch');
 const fs = require('fs');
 const fsPromises = fs.promises;
-const { path } = require('./path');
+const { steamPath: path } = require('./path');
 
 const downloadMac = async (version) => {
   const url = path.releaseMacUrlZip(version);
   console.log('downloading:', url.split('/').slice(-1)[0]);
-  await deleter.promise([path.tempDist]);
+  await deleter.promise([path.releaseMacTempZip]);
   const latestResp = await fetch(url);
   if (latestResp.status !== 200) {
     throw new Error('Response status was ' + latestResp.status);
   }
-  const stream = fs.createWriteStream(path.tempDist);
+  const stream = fs.createWriteStream(path.releaseMacTempZip);
   await new Promise((resolve, reject) => {
     stream.on('error', reject);
     stream.on('finish', resolve);
