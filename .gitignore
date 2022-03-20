@@ -2,6 +2,7 @@
 /app/
 /fetch.zip
 /fetch.7z
+/steam/
 
 # electron-forge
 /out/
