@@ -1,4 +1,4 @@
-name: Steam Manual Release
+name: Steam Manual Debug Release
 
 on:
   workflow_dispatch:
