@@ -1,9 +1,12 @@
-const extractDmg = require("extract-dmg");
 const deleter = require('delete');
 const fetch = require('node-fetch');
 const fs = require('fs');
-const fsPromises = fs.promises;
+const sevenBin = require('7zip-bin');
+const { extractFull: sevenExtract } = require('node-7z');
 const { steamPath: path } = require('./path');
+
+const fsPromises = fs.promises;
+const pathTo7zip = sevenBin.path7za;
 
 const downloadMac = async (version) => {
   const url = path.releaseMacUrlDmg(version);
@@ -25,7 +28,13 @@ const downloadMac = async (version) => {
 const unzipMac = async () => {
   console.log('unzipping...');
   await deleter.promise([path.releaseMacTempOut]);
-  await extractDmg(path.releaseMacTempDmg, path.releaseMacTempOut);
+  await new Promise((resolve, reject) => {
+    const process = sevenExtract(path.releaseMacTempDmg, path.releaseMacTempOut, {
+      $bin: pathTo7zip,
+    });
+    process.on('end', () => resolve());
+    process.on('error', () => reject());
+  });
   await deleter.promise([path.releaseMacTempDmg]);
 }
 

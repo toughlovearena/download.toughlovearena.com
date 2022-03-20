@@ -3,8 +3,9 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const sevenBin = require('7zip-bin');
 const { extractFull: sevenExtract } = require('node-7z');
-const fsPromises = fs.promises;
 const { fetchPath: path } = require('./path');
+
+const fsPromises = fs.promises;
 const pathTo7zip = sevenBin.path7za;
 
 const downloadDist = async (version) => {
