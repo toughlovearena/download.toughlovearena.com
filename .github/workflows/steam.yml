@@ -16,6 +16,8 @@ jobs:
         with:
           node-version: 14.17.1
 
+      - run: yarn install
+
       - name: Download executables
         run: npm run steam
 
