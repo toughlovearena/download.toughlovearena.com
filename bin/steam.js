@@ -8,15 +8,14 @@ const { steamPath: path } = require('./path');
 const fsPromises = fs.promises;
 const pathTo7zip = sevenBin.path7za;
 
-const downloadMac = async (version) => {
-  const url = path.releaseMacUrlDmg(version);
+const downloadRelease = async (url, filePath) => {
   console.log('downloading:', url.split('/').slice(-1)[0]);
-  await deleter.promise([path.releaseMacTempDmg]);
+  await deleter.promise([filePath]);
   const latestResp = await fetch(url);
   if (latestResp.status !== 200) {
     throw new Error('Response status was ' + latestResp.status);
   }
-  const stream = fs.createWriteStream(path.releaseMacTempDmg);
+  const stream = fs.createWriteStream(filePath);
   await new Promise((resolve, reject) => {
     stream.on('error', reject);
     stream.on('finish', resolve);
@@ -25,18 +24,38 @@ const downloadMac = async (version) => {
   console.log('finished download');
 };
 
-const unzipMac = async () => {
-  console.log('unzipping:', path.releaseMacTempDmg);
-  await deleter.promise([path.releaseMacTempOut]);
+const unzipRelease = async (zipPath, destFolder) => {
+  console.log('unzipping:', zipPath);
+  await deleter.promise([destFolder]);
   await new Promise((resolve, reject) => {
-    const process = sevenExtract(path.releaseMacTempDmg, path.releaseMacTempOut, {
+    const process = sevenExtract(zipPath, destFolder, {
       $bin: pathTo7zip,
     });
     process.on('end', () => resolve());
     process.on('error', () => reject());
   });
-  console.log('unzipped to:', path.releaseMacTempOut);
-  await deleter.promise([path.releaseMacTempDmg]);
+  console.log('unzipped to:', destFolder);
+  await deleter.promise([zipPath]);
+}
+
+const prepareWindows = async (version) => {
+  const url = path.releaseWindowsUrl(version);
+  const filePath = `${path.releaseWindowsDepot}/${path.releaseWindowsExe}`;
+  await downloadRelease(url, filePath);
+}
+
+const prepareMac = async (version) => {
+  const url = path.releaseMacUrl(version);
+  const filePath = path.releaseMacZip;
+  const depot = path.releaseMacDepot;
+  await downloadRelease(url, filePath);
+  await unzipRelease(filePath, depot);
+}
+
+const prepareLinux = async (version) => {
+  const url = path.releaseLinuxUrl(version);
+  const filePath = `${path.releaseWindowsDepot}/${path.releaseLinuxAppImage}`;
+  await downloadRelease(url, filePath);
 }
 
 const fetchLatest = async () => {
@@ -46,13 +65,14 @@ const fetchLatest = async () => {
     const newVersion = packageJson.version;
 
     console.log(newVersion);
-    await downloadMac(newVersion);
-    await unzipMac();
+    // await prepareWindows(newVersion);
+    await prepareMac(newVersion);
+    // await prepareLinux(newVersion);
 
     console.log('done!');
   } catch (err) {
     console.log('there was an error!');
-    console.error(error);
+    console.error(err);
     process.exit(1);
   }
 };

@@ -10,9 +10,19 @@ const fetchPath = {
 };
 const steamPath = {
   packageJson: 'package.json',
-  releaseMacTempDmg: 'steam-osx.zip',
-  releaseMacTempOut: 'steam/osx',
-  releaseMacUrlDmg: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}-mac.zip`,
+
+  // see steam.yml
+  releaseWindowsDepot: 'steam/windows',
+  releaseMacDepot: 'steam/osx',
+  releaseLinuxDepot: 'steam/linux',
+
+  releaseWindowsExe: 'Tough Love Arena.exe',
+  releaseMacZip: 'steam-osx.zip',
+  releaseLinuxAppImage: 'Tough Love Arena.AppImage',
+
+  releaseWindowsUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-Setup-${version}.exe`,
+  releaseMacUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}-mac.zip`,
+  releaseLinuxUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}.AppImage`,
 };
 
 function replaceLine(path, before, after) {
