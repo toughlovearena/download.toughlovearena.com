@@ -10,8 +10,8 @@ const fetchPath = {
 };
 const steamPath = {
   packageJson: 'package.json',
-  releaseMacTempDmg: 'steam-mac.dmg',
-  releaseMacTempOut: 'steam/mac',
+  releaseMacTempDmg: 'steam-osx.dmg',
+  releaseMacTempOut: 'steam/osx',
   releaseMacUrlDmg: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}.dmg`
 };
 

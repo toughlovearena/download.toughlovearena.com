@@ -6,7 +6,19 @@ on:
 jobs:
   deployToSteam:
     runs-on: ubuntu-latest
+
     steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.17.1
+
+      - name: Download executables
+        run: npm run steam
+
       - uses: game-ci/steam-deploy@v1
         with:
           appId: ${{ secrets.STEAM_APP_ID }}
@@ -16,7 +28,7 @@ jobs:
           ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
           ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
           buildDescription: v1.2.3
-          rootPath: build
-          depot1Path: StandaloneWindows64
-          depot2Path: StandaloneLinux64
-          releaseBranch: prerelease
+          rootPath: steam
+          depot1Path: osx
+          # depot2Path: StandaloneLinux64
+          releaseBranch: github

@@ -13,6 +13,7 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "fetch": "node bin/fetch.js",
+    "steam": "node bin/steam.js",
     "start": "electron .",
     "ebuild": "electron-builder --mac --windows --linux",
     "erelease": "electron-builder --mac --windows --linux --publish always"
