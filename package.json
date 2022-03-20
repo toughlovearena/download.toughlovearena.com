@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "7zip-bin": "^5.1.1",
+    "extract-dmg": "^1.0.0",
     "decompress": "^4.2.1",
     "delete": "^1.1.0",
     "electron": "^13.1.4",

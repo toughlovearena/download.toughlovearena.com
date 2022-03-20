@@ -3,6 +3,7 @@
 /fetch.zip
 /fetch.7z
 /steam/
+/steam-*
 
 # electron-forge
 /out/

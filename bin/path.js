@@ -10,9 +10,9 @@ const fetchPath = {
 };
 const steamPath = {
   packageJson: 'package.json',
-  releaseMacTempZip: 'steam-mac.zip',
+  releaseMacTempDmg: 'steam-mac.dmg',
   releaseMacTempOut: 'steam/mac',
-  releaseMacUrlZip: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}-mac.zip`
+  releaseMacUrlDmg: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}.dmg`
 };
 
 function replaceLine(path, before, after) {

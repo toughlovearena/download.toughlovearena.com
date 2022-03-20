@@ -1,4 +1,4 @@
-const decompress = require('decompress');
+const extractDmg = require("extract-dmg");
 const deleter = require('delete');
 const fetch = require('node-fetch');
 const fs = require('fs');
@@ -6,14 +6,14 @@ const fsPromises = fs.promises;
 const { steamPath: path } = require('./path');
 
 const downloadMac = async (version) => {
-  const url = path.releaseMacUrlZip(version);
+  const url = path.releaseMacUrlDmg(version);
   console.log('downloading:', url.split('/').slice(-1)[0]);
-  await deleter.promise([path.releaseMacTempZip]);
+  await deleter.promise([path.releaseMacTempDmg]);
   const latestResp = await fetch(url);
   if (latestResp.status !== 200) {
     throw new Error('Response status was ' + latestResp.status);
   }
-  const stream = fs.createWriteStream(path.releaseMacTempZip);
+  const stream = fs.createWriteStream(path.releaseMacTempDmg);
   await new Promise((resolve, reject) => {
     stream.on('error', reject);
     stream.on('finish', resolve);
@@ -25,8 +25,8 @@ const downloadMac = async (version) => {
 const unzipMac = async () => {
   console.log('unzipping...');
   await deleter.promise([path.releaseMacTempOut]);
-  await decompress(path.releaseMacTempZip, path.releaseMacTempOut);
-  await deleter.promise([path.releaseMacTempZip]);
+  await extractDmg(path.releaseMacTempDmg, path.releaseMacTempOut);
+  await deleter.promise([path.releaseMacTempDmg]);
 }
 
 const fetchLatest = async () => {
