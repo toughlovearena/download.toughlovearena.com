@@ -26,7 +26,7 @@ const downloadMac = async (version) => {
 };
 
 const unzipMac = async () => {
-  console.log('unzipping...');
+  console.log('unzipping:', path.releaseMacTempDmg);
   await deleter.promise([path.releaseMacTempOut]);
   await new Promise((resolve, reject) => {
     const process = sevenExtract(path.releaseMacTempDmg, path.releaseMacTempOut, {
@@ -35,18 +35,25 @@ const unzipMac = async () => {
     process.on('end', () => resolve());
     process.on('error', () => reject());
   });
+  console.log('unzipped to:', path.releaseMacTempOut);
   await deleter.promise([path.releaseMacTempDmg]);
 }
 
 const fetchLatest = async () => {
-  const packageFile = await fsPromises.readFile(path.packageJson);
-  const packageJson = JSON.parse(packageFile);
-  const newVersion = packageJson.version;
+  try {
+    const packageFile = await fsPromises.readFile(path.packageJson);
+    const packageJson = JSON.parse(packageFile);
+    const newVersion = packageJson.version;
 
-  console.log(newVersion);
-  await downloadMac(newVersion);
-  await unzipMac();
+    console.log(newVersion);
+    await downloadMac(newVersion);
+    await unzipMac();
 
-  console.log('done!');
+    console.log('done!');
+  } catch (err) {
+    console.log('there was an error!');
+    console.error(error);
+    process.exit(1);
+  }
 };
 fetchLatest();
