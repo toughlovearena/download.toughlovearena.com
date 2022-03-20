@@ -1,12 +1,18 @@
 const fs = require('fs');
 
-const path = {
+const fetchPath = {
+  packageJson: 'package.json',
   latestDist: 'app',
   latestVersion: 'app/version.json',
   tempDist: 'fetch.7z',
-  packageJson: 'package.json',
   remoteVersion: 'http://storage.googleapis.com/fighter-html/version.json',
-  remoteDist: (version) => `http://storage.googleapis.com/fighter-html/${version}.7z`,
+  remoteDist: version => `http://storage.googleapis.com/fighter-html/${version}.7z`,
+};
+const steamPath = {
+  packageJson: 'package.json',
+  releaseMacTempDmg: 'steam-osx.dmg',
+  releaseMacTempOut: 'steam/osx',
+  releaseMacUrlDmg: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}.dmg`
 };
 
 function replaceLine(path, before, after) {
@@ -22,6 +28,7 @@ function replaceLine(path, before, after) {
 }
 
 module.exports = {
-  path,
+  fetchPath,
+  steamPath,
   replaceLine,
 };
