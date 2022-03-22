@@ -21,6 +21,12 @@ jobs:
       - name: Download executables
         run: npm run steam
 
+      - name: Set output variables
+        id: vars
+        run: |
+          version=$(npx -c 'echo "$npm_package_version"')
+          echo ::set-output name=buildDescription::"v$version"
+
       - uses: game-ci/steam-deploy@v1
         with:
           appId: ${{ secrets.STEAM_APP_ID }}
@@ -29,7 +35,7 @@ jobs:
           configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
           ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
           ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
-          buildDescription: v0.0.1
+          buildDescription: ${{ steps.vars.outputs.buildDescription }}
           rootPath: steam # see bin/steam.js
           depot1Path: osx # see bin/steam.js
           releaseBranch: github
