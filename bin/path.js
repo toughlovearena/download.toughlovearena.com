@@ -16,9 +16,9 @@ const steamPath = {
   releaseMacDepot: 'steam/osx',
   releaseLinuxDepot: 'steam/linux',
 
-  releaseWindowsExe: 'Tough Love Arena.exe',
+  releaseWindowsExe: 'ToughLoveArena.exe',
   releaseMacZip: 'steam-osx.zip',
-  releaseLinuxAppImage: 'Tough Love Arena.AppImage',
+  releaseLinuxAppImage: 'ToughLoveArena.AppImage',
 
   releaseWindowsUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-Setup-${version}.exe`,
   releaseMacUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}-mac.zip`,
