@@ -54,7 +54,7 @@ const prepareMac = async (version) => {
 
 const prepareLinux = async (version) => {
   const url = path.releaseLinuxUrl(version);
-  const filePath = `${path.releaseWindowsDepot}/${path.releaseLinuxAppImage}`;
+  const filePath = `${path.releaseLinuxDepot}/${path.releaseLinuxAppImage}`;
   await downloadRelease(url, filePath);
 }
 
@@ -67,7 +67,7 @@ const fetchLatest = async () => {
     console.log(newVersion);
     // await prepareWindows(newVersion);
     await prepareMac(newVersion);
-    // await prepareLinux(newVersion);
+    await prepareLinux(newVersion);
 
     console.log('done!');
   } catch (err) {
