@@ -1,0 +1,13 @@
+[{
+  "label": "mac test",
+  "electron-builder-args": "",
+  "os": "macos-latest"
+}, {
+  "label": "windows test",
+  "electron-builder-args": "portable",
+  "os": "windows-latest"
+}, {
+  "label": "linux test",
+  "electron-builder-args": "snap",
+  "os": "ubuntu-latest"
+}]
