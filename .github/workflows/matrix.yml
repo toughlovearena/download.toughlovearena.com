@@ -16,8 +16,9 @@ jobs:
       - name: Export matrix.json
         id: set-matrix
         run: |
-          cat gh-matrix.json
-          echo ::set-output name=matrix::$(cat gh-matrix.json)
+          matrix=$(cat gh-matrix.json)
+          echo matrix
+          echo ::set-output name=matrix::{\"include\":$(echo $matrix)}\"
 
   build:
     needs: matrix_prep
