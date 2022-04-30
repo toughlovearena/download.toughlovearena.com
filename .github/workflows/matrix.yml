@@ -16,6 +16,7 @@ jobs:
       - name: Export matrix.json
         id: set-matrix
         run: |
+          cat gh-matrix.json
           echo ::set-output name=matrix::$(cat gh-matrix.json)
 
   build:
