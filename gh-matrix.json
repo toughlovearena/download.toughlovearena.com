@@ -1,13 +1,13 @@
 [{
   "label": "mac test",
   "electron-builder-args": "",
-  "os": "macos-latest"
+  "runs-on": "macos-latest"
 }, {
   "label": "windows test",
   "electron-builder-args": "portable",
-  "os": "windows-latest"
+  "runs-on": "windows-latest"
 }, {
   "label": "linux test",
   "electron-builder-args": "snap",
-  "os": "ubuntu-latest"
+  "runs-on": "ubuntu-latest"
 }]

@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
+  # https://stackoverflow.com/a/65434401
   matrix_prep:
     runs-on: ubuntu-latest
     outputs:
@@ -18,11 +19,11 @@ jobs:
           echo ::set-output name=matrix::$(cat gh-matrix.json)
 
   build:
+    needs: matrix_prep
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
-
-    # runs-on: ${{ matrix.os }}
+    # runs-on: ${{ matrix.runs-on }}
     runs-on: ubuntu-latest
 
     steps:
