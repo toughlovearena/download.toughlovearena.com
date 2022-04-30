@@ -3,13 +3,13 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const sevenBin = require('7zip-bin');
 const { extractFull: sevenExtract } = require('node-7z');
-const { steamPath: path } = require('./path');
+const { ensureDir, steamPath: path } = require('./path');
 
 const fsPromises = fs.promises;
 const pathTo7zip = sevenBin.path7za;
 
 const downloadRelease = async (url, filePath) => {
-  console.log('downloading:', url.split('/').slice(-1)[0]);
+  console.log('downloading', url, '>', filePath);
   await deleter.promise([filePath]);
   const latestResp = await fetch(url);
   if (latestResp.status !== 200) {
@@ -53,6 +53,7 @@ const prepareMac = async (version) => {
 }
 
 const prepareLinux = async (version) => {
+  ensureDir(path.releaseLinuxDepot);
   const url = path.releaseLinuxUrl(version);
   const filePath = `${path.releaseLinuxDepot}/${path.releaseLinuxAppImage}`;
   await downloadRelease(url, filePath);

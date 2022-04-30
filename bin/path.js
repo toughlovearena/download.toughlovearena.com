@@ -25,6 +25,12 @@ const steamPath = {
   releaseLinuxUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}.AppImage`,
 };
 
+function ensureDir(dir) {
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir, { recursive: true });
+  }
+}
+
 function replaceLine(path, before, after) {
   const jsFile = fs.readFileSync(path, 'utf-8');
   const lines = jsFile.split('\n');
@@ -40,5 +46,6 @@ function replaceLine(path, before, after) {
 module.exports = {
   fetchPath,
   steamPath,
+  ensureDir,
   replaceLine,
 };
