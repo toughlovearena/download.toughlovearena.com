@@ -13,10 +13,11 @@ Download a desktop version of [Tough Love Arena](https://toughlovearena.com) tha
 You can download the latest version of Tough Love Arena via [GitHub Releases](https://github.com/toughlovearena/download.toughlovearena.com/releases/latest). The downloads will be listed under "Assets".
 
 - Windows: Download `Tough-Love-Arena-Setup-X.X.X.exe` and run it to install
-  - NOTE: You will see a warning the first time you install. This is expected. Windows certification is coming soon!
+  - You will see a warning the first time you install. This is expected. Windows certification is coming soon!
 - Mac: Download `Tough-Love-Arena-X.X.X.dmg`, open it, and drag Tough Love Arena into your Applications folder
-  - NOTE: If you have a previous version installed, replace it with the new one. Your settings will be preserved
+  - If you have a previous version installed, replace it with the new one. Your settings will be preserved
 - Linux: Download `Tough-Love-Arena-X.X.X.AppImage`, [make the file executable](https://itsfoss.com/use-appimage-linux/), and then run it
+  - If nothing happens when you run the AppImage, you might need to [manually install FUSE](https://docs.appimage.org/user-guide/troubleshooting/fuse.html)
 
 ### PLEASE READ THESE IMPORTANT NOTES
 
