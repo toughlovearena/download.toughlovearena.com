@@ -61,6 +61,10 @@ jobs:
           mac_certs_password: ${{ secrets.mac_certs_password }}
 
           build_script_name: fetch
+
+          # os specific args
+          # https://www.electron.build/configuration/win
+          # https://www.electron.build/configuration/linux
           args: ${{ matrix.electron-builder-args }}
 
           # If the commit is tagged with a version (e.g. "v1.0.0"),
