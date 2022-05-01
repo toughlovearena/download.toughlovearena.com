@@ -9,8 +9,8 @@ const path = require('path');
 
 const appConfig = (() => {
   try {
-    const file = fs.readFileSync('app.config.json');
-    const data = JSON.parse(file);
+    const fileBuffer = fs.readFileSync('app.config.json');
+    const data = JSON.parse(fileBuffer.toString());
     return data;
   } catch (err) {
     return {};
