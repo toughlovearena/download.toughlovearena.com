@@ -29,15 +29,17 @@ function createWindow() {
     },
   })
 
+  // before loading html
+  mainWindow.webContents.executeJavaScript(`window.ELECTRON_DEBUG_APP_CONFIG = ${JSON.stringify(appConfig)};`);
+  if (appConfig.isSteam) {
+    mainWindow.webContents.executeJavaScript("window.ELECTRON_IS_STEAM = true;");
+  }
+
   // and load the index.html of the app.
   mainWindow.loadFile('app/index.html');
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
-
-  if (isSteam) {
-    mainWindow.webContents.executeJavaScript("window.ELECTRON_IS_STEAM = true;");
-  }
 }
 
 // This method will be called when Electron has finished

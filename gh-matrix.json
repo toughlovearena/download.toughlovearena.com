@@ -6,7 +6,7 @@
   "artifact-key": "steam-windows",
   "runs-on": "windows-latest"
 }, {
-  "label": "linux snap",
+  "label": "linux / steam",
   "app-config": "steam.app.config.json",
   "electron-builder-args": "AppImage snap",
   "github-release": false,
