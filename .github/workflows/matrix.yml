@@ -80,6 +80,7 @@ jobs:
           key: ${{ matrix.cache-key }}
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
