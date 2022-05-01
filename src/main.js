@@ -30,9 +30,11 @@ function createWindow() {
 
   // after load is complete, set window variables
   loadPromise.then(() => {
-    mainWindow.webContents.executeJavaScript(`window.ELECTRON_DEBUG_APP_CONFIG = ${JSON.stringify(appConfig)};`);
-    mainWindow.webContents.executeJavaScript(`window.ELECTRON_AUTO_UPDATE = ${appConfig.autoUpdate};`);
-    mainWindow.webContents.executeJavaScript(`window.ELECTRON_IS_STEAM = ${appConfig.isSteam};`);
+    // for debugging
+    // mainWindow.webContents.executeJavaScript(`window.ELECTRON_DEBUG_APP_CONFIG = ${JSON.stringify(appConfig)};`);
+    if (appConfig.isSteam) {
+      mainWindow.webContents.executeJavaScript(`window.ELECTRON_IS_STEAM = true;`);
+    }
   });
 
   // return promise
