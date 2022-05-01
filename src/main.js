@@ -4,20 +4,13 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require("electron-updater");
-const fs = require('fs');
 const path = require('path');
-
-const appConfig = (() => {
-  try {
-    const fileBuffer = fs.readFileSync(`${__dirname}/app.config.json`);
-    const data = JSON.parse(fileBuffer.toString());
-    return data;
-  } catch (err) {
-    return {};
-  }
-})();
+const appConfig = require('./appConfig');
 
 function createWindow() {
+  // todo disable security for mod files?
+  // https://lifesaver.codes/answer/not-allowed-to-load-local-resource
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1280,
@@ -38,9 +31,8 @@ function createWindow() {
   // after load is complete, set window variables
   loadPromise.then(() => {
     mainWindow.webContents.executeJavaScript(`window.ELECTRON_DEBUG_APP_CONFIG = ${JSON.stringify(appConfig)};`);
-    if (appConfig.isSteam) {
-      mainWindow.webContents.executeJavaScript("window.ELECTRON_IS_STEAM = true;");
-    }
+    mainWindow.webContents.executeJavaScript(`window.ELECTRON_AUTO_UPDATE = ${appConfig.autoUpdate};`);
+    mainWindow.webContents.executeJavaScript(`window.ELECTRON_IS_STEAM = ${appConfig.isSteam};`);
   });
 
   // return promise
