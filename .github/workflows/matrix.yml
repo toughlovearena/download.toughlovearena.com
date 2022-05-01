@@ -44,12 +44,12 @@ jobs:
       - name: Prepare Electron app config (Unix)
         if: ${{ !startsWith(matrix.runs-on, 'windows') }}
         run: |
-          cp appConfig/${{ matrix.app-config }} app.config.json
+          cp appConfig/${{ matrix.app-config }} src/app.config.json
 
       - name: Prepare Electron app config (Windows)
         if: startsWith(matrix.runs-on, 'windows')
         run: |
-          copy appConfig/${{ matrix.app-config }} app.config.json
+          copy appConfig/${{ matrix.app-config }} src/app.config.json
 
       # https://github.com/samuelmeuli/action-electron-builder
       # https://samuelmeuli.com/blog/2019-12-28-notarizing-your-electron-app/
