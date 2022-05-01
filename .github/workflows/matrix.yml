@@ -73,6 +73,7 @@ jobs:
           build_script_name: fetch
 
           # os specific args
+          # https://www.electron.build/configuration/mac
           # https://www.electron.build/configuration/win
           # https://www.electron.build/configuration/linux
           args: ${{ matrix.electron-builder-args }}
@@ -132,14 +133,12 @@ jobs:
 
       - name: Rename versioned files for distribution
         run: |
-          mkdir github
-          mkdir github/mac
-          mkdir github/windows
-          mkdir github/linux
           mkdir steam
           mkdir steam/mac
           mkdir steam/windows
           mkdir steam/linux
+        # echo "Renaming mac"
+        # unzip "electron/mac/Tough Love Arena ${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"

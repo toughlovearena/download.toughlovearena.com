@@ -1,16 +1,22 @@
 [{
-  "label": "mac todo",
-  "electron-builder-args": "",
-  "cache-key": "cache-mac",
+  "label": "mac / steam",
+  "app-config": "steam.app.config.json",
+  "electron-builder-args": "zip",
+  "github-release": false,
+  "artifact-key": "steam-mac",
   "runs-on": "macos-latest"
 }, {
-  "label": "windows portable",
-  "electron-builder-args": "nsis portable",
-  "cache-key": "cache-windows",
+  "label": "windows / steam",
+  "app-config": "steam.app.config.json",
+  "electron-builder-args": "portable",
+  "github-release": false,
+  "artifact-key": "steam-windows",
   "runs-on": "windows-latest"
 }, {
-  "label": "linux snap",
+  "label": "linux / steam",
+  "app-config": "steam.app.config.json",
   "electron-builder-args": "AppImage snap",
-  "cache-key": "cache-linux",
+  "github-release": false,
+  "artifact-key": "steam-linux",
   "runs-on": "ubuntu-latest"
 }]
