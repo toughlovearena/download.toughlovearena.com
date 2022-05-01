@@ -1,13 +1,16 @@
 [{
-  "label": "mac test",
+  "label": "mac todo",
   "electron-builder-args": "",
+  "depot-path": "depot1Path",
   "runs-on": "macos-latest"
 }, {
-  "label": "windows test",
+  "label": "windows portable",
   "electron-builder-args": "portable",
+  "depot-path": "depot2Path",
   "runs-on": "windows-latest"
 }, {
-  "label": "linux test",
+  "label": "linux snap",
   "electron-builder-args": "snap",
+  "depot-path": "depot3Path",
   "runs-on": "ubuntu-latest"
 }]

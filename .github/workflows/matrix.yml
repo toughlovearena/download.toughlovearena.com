@@ -41,6 +41,12 @@ jobs:
         with:
           node-version: 14.17.1
 
+      - name: Set output variables
+        id: vars
+        run: |
+          version=$(npx -c 'echo "$npm_package_version"')
+          echo ::set-output name=buildDescription::"v$version"
+
       # https://github.com/samuelmeuli/action-electron-builder
       # https://samuelmeuli.com/blog/2019-12-28-notarizing-your-electron-app/
       - name: Prepare for app notarization
@@ -51,7 +57,7 @@ jobs:
           echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
 
       # https://github.com/jsoma/action-electron-forge
-      - name: Build/release Electron app
+      - name: Build Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
           # GitHub token, automatically provided to the action
@@ -72,6 +78,17 @@ jobs:
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
 
-      - name: List local dir
-        run: |
-          ls -al
+      # dist/Tough-Love-Arena-0.91.1.exe
+      - name: Deploy to Steam
+        if: startsWith(matrix.runs-on, 'windows') # todo support other os
+        uses: game-ci/steam-deploy@v1
+        with:
+          appId: ${{ secrets.STEAM_APP_ID }}
+          username: ${{ secrets.STEAM_USERNAME }}
+          password: ${{ secrets.STEAM_PASSWORD }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
+          ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
+          ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
+          buildDescription: ${{ steps.vars.outputs.buildDescription }}
+          ${{ matrix.depot-path }}: dist
+          releaseBranch: github
