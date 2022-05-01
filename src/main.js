@@ -4,7 +4,18 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require("electron-updater");
+const fs = require('fs');
 const path = require('path');
+
+const appConfig = (() => {
+  try {
+    const file = fs.readFileSync('app.config.json');
+    const data = JSON.parse(file);
+    return data;
+  } catch (err) {
+    return {};
+  }
+})();
 
 function createWindow() {
   // Create the browser window.
@@ -13,6 +24,7 @@ function createWindow() {
     height: 720,
     autoHideMenuBar: true,
     webPreferences: {
+      // devTools: !appConfig.isSteam,
       preload: path.join(__dirname, 'preload.js'),
     },
   })
@@ -22,6 +34,10 @@ function createWindow() {
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
+
+  if (isSteam) {
+    mainWindow.webContents.executeJavaScript("window.ELECTRON_IS_STEAM = true;");
+  }
 }
 
 // This method will be called when Electron has finished
@@ -29,7 +45,10 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
-  startCheckingForUpdates();
+
+  if (appConfig.autoUpdate) {
+    startCheckingForUpdates();
+  }
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
