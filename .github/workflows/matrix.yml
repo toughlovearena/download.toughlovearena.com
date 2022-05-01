@@ -108,11 +108,11 @@ jobs:
       - name: Tree
         run: tree
 
-      # - name: Download mac artifacts
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: steam-mac
-      #     path: electron/mac
+      - name: Download mac artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: steam-mac
+          path: electron/mac
 
       - name: Download windows artifacts
         uses: actions/download-artifact@v3
@@ -164,7 +164,7 @@ jobs:
           ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
           buildDescription: ${{ steps.vars.outputs.buildDescription }}
           rootPath: steam
-          # depot1Path: mac
+          depot1Path: mac
           depot2Path: windows
           depot3Path: linux
           releaseBranch: github
