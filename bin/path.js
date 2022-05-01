@@ -8,22 +8,6 @@ const fetchPath = {
   remoteVersion: 'http://storage.googleapis.com/fighter-html/version.json',
   remoteDist: version => `http://storage.googleapis.com/fighter-html/${version}.7z`,
 };
-const steamPath = {
-  packageJson: 'package.json',
-
-  // see steam.yml
-  releaseWindowsDepot: 'steam/windows',
-  releaseMacDepot: 'steam/osx',
-  releaseLinuxDepot: 'steam/linux',
-
-  releaseWindowsExe: 'ToughLoveArena.exe',
-  releaseMacZip: 'steam-osx.zip',
-  releaseLinuxAppImage: 'ToughLoveArena.AppImage',
-
-  releaseWindowsUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-Setup-${version}.exe`,
-  releaseMacUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}-mac.zip`,
-  releaseLinuxUrl: version => `https://github.com/toughlovearena/download.toughlovearena.com/releases/download/v${version}/Tough-Love-Arena-${version}.AppImage`,
-};
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)){
@@ -45,7 +29,6 @@ function replaceLine(path, before, after) {
 
 module.exports = {
   fetchPath,
-  steamPath,
   ensureDir,
   replaceLine,
 };
