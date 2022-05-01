@@ -138,6 +138,9 @@ jobs:
         with:
           args: 7z x "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-mac.zip"
 
+      - name: Tree
+        run: tree
+
       - name: Rename versioned files for distribution
         run: |
           mkdir steam
@@ -145,7 +148,7 @@ jobs:
           mkdir steam/windows
           mkdir steam/linux
           echo "Renaming mac"
-          mv "electron/mac/Tough Love Arena.app" "steam/mac/Tough Love Arena.app"
+          mv "Tough Love Arena.app" "steam/mac/Tough Love Arena.app"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
