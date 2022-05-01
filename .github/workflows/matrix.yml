@@ -131,14 +131,14 @@ jobs:
       - name: Tree
         run: tree
 
+      # echo "Renaming mac"
+      # unzip "electron/mac/Tough Love Arena ${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/"
       - name: Rename versioned files for distribution
         run: |
           mkdir steam
           mkdir steam/mac
           mkdir steam/windows
           mkdir steam/linux
-        # echo "Renaming mac"
-        # unzip "electron/mac/Tough Love Arena ${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
