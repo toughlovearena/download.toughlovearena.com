@@ -134,7 +134,7 @@ jobs:
       - name: Unzip Mac
         uses: edgarrc/action-7z@v1
         with:
-          args: 7z x "electron/mac/Tough Love Arena ${{ steps.vars.outputs.version }}-mac.zip"
+          args: 7z x "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-mac.zip"
 
       - name: Rename versioned files for distribution
         run: |
