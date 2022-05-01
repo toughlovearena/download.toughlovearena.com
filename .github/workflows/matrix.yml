@@ -134,27 +134,28 @@ jobs:
           mkdir steam/windows
           mkdir steam/linux
           echo "Renaming windows"
-          mv "electron/windows/Tough Love Arena Setup *.exe" "github/windows/"
+          rm "electron/windows/Tough Love Arena Setup *.exe.blockmap"
+          mv "electron/windows/Tough Love Arena Setup *.exe" "github/windows/Tough Love Arena Setup.exe"
           mv "electron/windows/Tough Love Arena *.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
-          mv "electron/linuxTough Love Arena-*.AppImage" "steam/linux/Tough Love Arena.AppImage"
+          mv "electron/linux/Tough Love Arena-*.AppImage" "steam/linux/Tough Love Arena.AppImage"
           mv "electron/linux/tough-love-arena_*.snap" "steam/linux/Tough Love Arena.snap"
 
       - name: Tree
         run: tree
 
-      # - name: Deploy to Steam
-      #   uses: game-ci/steam-deploy@v1
-      #   with:
-      #     appId: ${{ secrets.STEAM_APP_ID }}
-      #     username: ${{ secrets.STEAM_USERNAME }}
-      #     password: ${{ secrets.STEAM_PASSWORD }}
-      #     configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
-      #     ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
-      #     ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
-      #     buildDescription: ${{ steps.vars.outputs.buildDescription }}
-      #     rootPath: electron
-      #     # depot1Path: mac
-      #     depot2Path: windows
-      #     depot3Path: linux
-      #     releaseBranch: github
+      - name: Deploy to Steam
+        uses: game-ci/steam-deploy@v1
+        with:
+          appId: ${{ secrets.STEAM_APP_ID }}
+          username: ${{ secrets.STEAM_USERNAME }}
+          password: ${{ secrets.STEAM_PASSWORD }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
+          ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
+          ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
+          buildDescription: ${{ steps.vars.outputs.buildDescription }}
+          rootPath: steam
+          # depot1Path: mac
+          depot2Path: windows
+          depot3Path: linux
+          releaseBranch: github
