@@ -1,4 +1,9 @@
 [{
+  "label": "mac todo",
+  "electron-builder-args": "",
+  "cache-key": "cache-mac",
+  "runs-on": "macos-latest"
+}, {
   "label": "windows portable",
   "electron-builder-args": "nsis portable",
   "cache-key": "cache-windows",

@@ -76,12 +76,12 @@ jobs:
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
 
-      - name: Set electron cache
-        uses: actions/cache@v3
+      # https://levelup.gitconnected.com/github-actions-how-to-share-data-between-jobs-fc1547defc3e
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          # dist/Tough-Love-Arena-0.91.1.exe
-          path: dist
-          key: ${{ matrix.cache-key }}
+          name: ${{ matrix.cache-key }}
+          path: dist/
 
   deploy:
     needs: build
@@ -97,42 +97,61 @@ jobs:
           version=$(npx -c 'echo "$npm_package_version"')
           echo ::set-output name=buildDescription::"v$version"
 
-      - name: Load mac cache
-        uses: actions/cache@v3
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: electron/mac
-          key: cache-mac
+      - name: Tree
+        run: tree
 
-      - name: Load windows cache
-        uses: actions/cache@v3
+      # - name: Download mac artifacts
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: cache-mac
+      #     path: electron/mac
+
+      - name: Download windows artifacts
+        uses: actions/download-artifact@v3
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
+          name: cache-windows
           path: electron/windows
-          key: cache-windows
 
-      - name: Load linux cache
-        uses: actions/cache@v3
+      - name: Download linux artifacts
+        uses: actions/download-artifact@v3
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
+          name: cache-linux
           path: electron/linux
-          key: cache-linux
 
-      - name: Log local files
-        run: tree electron
+      # todo https://github.com/marketplace/actions/delete-run-artifacts
 
-      - name: Deploy to Steam
-        uses: game-ci/steam-deploy@v1
-        with:
-          appId: ${{ secrets.STEAM_APP_ID }}
-          username: ${{ secrets.STEAM_USERNAME }}
-          password: ${{ secrets.STEAM_PASSWORD }}
-          configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
-          ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
-          ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
-          buildDescription: ${{ steps.vars.outputs.buildDescription }}
-          rootPath: electron
-          # depot1Path: mac
-          depot2Path: windows
-          # depot3Path: linux
-          releaseBranch: github
+      - name: Tree
+        run: tree
+
+      - name: Rename versioned files for distribution
+        run: |
+          mkdir github
+          mkdir github/mac
+          mkdir github/windows
+          mkdir github/linux
+          mkdir steam
+          mkdir steam/mac
+          mkdir steam/windows
+          mkdir steam/linux
+          echo "Renaming windows"
+          mv electron/windows/Tough-Love-Arena-Setup-*.exe "github/windows/Tough Love Arena Setup.exe"
+          mv electron/windows/Tough-Love-Arena-*.exe "steam/windows/Tough Love Arena.exe"
+
+      - name: Tree
+        run: tree
+
+      # - name: Deploy to Steam
+      #   uses: game-ci/steam-deploy@v1
+      #   with:
+      #     appId: ${{ secrets.STEAM_APP_ID }}
+      #     username: ${{ secrets.STEAM_USERNAME }}
+      #     password: ${{ secrets.STEAM_PASSWORD }}
+      #     configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
+      #     ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
+      #     ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
+      #     buildDescription: ${{ steps.vars.outputs.buildDescription }}
+      #     rootPath: electron
+      #     # depot1Path: mac
+      #     depot2Path: windows
+      #     depot3Path: linux
+      #     releaseBranch: github
