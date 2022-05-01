@@ -29,7 +29,6 @@ function replaceLine(path, before, after) {
 
 module.exports = {
   fetchPath,
-  steamPath,
   ensureDir,
   replaceLine,
 };
