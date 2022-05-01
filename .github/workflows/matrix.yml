@@ -131,14 +131,19 @@ jobs:
       - name: Tree
         run: tree
 
-      # echo "Renaming mac"
-      # unzip "electron/mac/Tough Love Arena ${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/"
+      - name: Unzip Mac
+        uses: edgarrc/action-7z@v1
+        with:
+          args: 7z x "electron/mac/Tough Love Arena ${{ steps.vars.outputs.version }}-mac.zip"
+
       - name: Rename versioned files for distribution
         run: |
           mkdir steam
           mkdir steam/mac
           mkdir steam/windows
           mkdir steam/linux
+          echo "Renaming mac"
+          mv "electron/mac/Tough Love Arena.app" "steam/mac/Tough Love Arena.app"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
