@@ -1,16 +1,16 @@
 [{
   "label": "mac todo",
   "electron-builder-args": "",
-  "depot-path": "depot1Path",
+  "cache-key": "cache-mac",
   "runs-on": "macos-latest"
 }, {
   "label": "windows portable",
   "electron-builder-args": "portable",
-  "depot-path": "depot2Path",
+  "cache-key": "cache-windows",
   "runs-on": "windows-latest"
 }, {
   "label": "linux snap",
-  "electron-builder-args": "snap",
-  "depot-path": "depot3Path",
+  "electron-builder-args": "AppImage snap",
+  "cache-key": "cache-linux",
   "runs-on": "ubuntu-latest"
 }]

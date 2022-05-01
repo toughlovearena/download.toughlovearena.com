@@ -41,12 +41,6 @@ jobs:
         with:
           node-version: 14.17.1
 
-      - name: Set output variables
-        id: vars
-        run: |
-          version=$(npx -c 'echo "$npm_package_version"')
-          echo ::set-output name=buildDescription::"v$version"
-
       # https://github.com/samuelmeuli/action-electron-builder
       # https://samuelmeuli.com/blog/2019-12-28-notarizing-your-electron-app/
       - name: Prepare for app notarization
@@ -78,9 +72,51 @@ jobs:
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
 
-      # dist/Tough-Love-Arena-0.91.1.exe
+      - name: Set electron cache
+        uses: actions/cache@v3
+        with:
+          # dist/Tough-Love-Arena-0.91.1.exe
+          path: dist
+          key: ${{ matrix.cache-key }}
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Set variables
+        id: vars
+        run: |
+          version=$(npx -c 'echo "$npm_package_version"')
+          echo ::set-output name=buildDescription::"v$version"
+
+      - name: Load mac cache
+        uses: actions/cache@v3
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: electron/mac
+          key: cache-mac
+
+      - name: Load windows cache
+        uses: actions/cache@v3
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: electron/windows
+          key: cache-windows
+
+      - name: Load linux cache
+        uses: actions/cache@v3
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: electron/linux
+          key: cache-linux
+
+      - name: Log local files
+        run: tree electron
+
       - name: Deploy to Steam
-        if: startsWith(matrix.runs-on, 'windows') # todo support other os
         uses: game-ci/steam-deploy@v1
         with:
           appId: ${{ secrets.STEAM_APP_ID }}
@@ -90,5 +126,8 @@ jobs:
           ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
           ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
           buildDescription: ${{ steps.vars.outputs.buildDescription }}
-          ${{ matrix.depot-path }}: dist
+          rootPath: electron
+          # depot1Path: mac
+          depot2Path: windows
+          # depot3Path: linux
           releaseBranch: github
