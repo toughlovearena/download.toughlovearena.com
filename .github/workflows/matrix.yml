@@ -95,6 +95,7 @@ jobs:
         id: vars
         run: |
           version=$(npx -c 'echo "$npm_package_version"')
+          echo ::set-output name=version::"$version"
           echo ::set-output name=buildDescription::"v$version"
 
       - name: Tree
@@ -134,12 +135,11 @@ jobs:
           mkdir steam/windows
           mkdir steam/linux
           echo "Renaming windows"
-          rm "electron/windows/Tough Love Arena Setup *.exe.blockmap"
-          mv "electron/windows/Tough Love Arena Setup *.exe" "github/windows/Tough Love Arena Setup.exe"
-          mv "electron/windows/Tough Love Arena *.exe" "steam/windows/Tough Love Arena.exe"
+          mv "electron/windows/Tough Love Arena Setup ${{ steps.vars.outputs.version }}.exe" "github/windows/Tough Love Arena Setup.exe"
+          mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
-          mv "electron/linux/Tough Love Arena-*.AppImage" "steam/linux/Tough Love Arena.AppImage"
-          mv "electron/linux/tough-love-arena_*.snap" "steam/linux/Tough Love Arena.snap"
+          mv "electron/linux/Tough Love Arena-${{ steps.vars.outputs.version }}.AppImage" "steam/linux/Tough Love Arena.AppImage"
+          mv "electron/linux/tough-love-arena_${{ steps.vars.outputs.version }}_amd64.snap" "steam/linux/Tough Love Arena.snap"
 
       - name: Tree
         run: tree
