@@ -9,12 +9,6 @@ const fetchPath = {
   remoteDist: version => `http://storage.googleapis.com/fighter-html/${version}.7z`,
 };
 
-function ensureDir(dir) {
-  if (!fs.existsSync(dir)){
-    fs.mkdirSync(dir, { recursive: true });
-  }
-}
-
 function replaceLine(path, before, after) {
   const jsFile = fs.readFileSync(path, 'utf-8');
   const lines = jsFile.split('\n');
@@ -29,6 +23,5 @@ function replaceLine(path, before, after) {
 
 module.exports = {
   fetchPath,
-  ensureDir,
   replaceLine,
 };
