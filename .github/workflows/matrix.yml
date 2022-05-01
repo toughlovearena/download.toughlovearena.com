@@ -134,8 +134,11 @@ jobs:
           mkdir steam/windows
           mkdir steam/linux
           echo "Renaming windows"
-          mv electron/windows/Tough-Love-Arena-Setup-*.exe "github/windows/Tough Love Arena Setup.exe"
-          mv electron/windows/Tough-Love-Arena-*.exe "steam/windows/Tough Love Arena.exe"
+          mv "electron/windows/Tough Love Arena Setup *.exe" "github/windows/"
+          mv "electron/windows/Tough Love Arena *.exe" "steam/windows/Tough Love Arena.exe"
+          echo "Renaming linux"
+          mv "electron/linuxTough Love Arena-*.AppImage" "steam/linux/Tough Love Arena.AppImage"
+          mv "electron/linux/tough-love-arena_*.snap" "steam/linux/Tough Love Arena.snap"
 
       - name: Tree
         run: tree
