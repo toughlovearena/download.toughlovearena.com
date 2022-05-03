@@ -13,6 +13,7 @@ function createWindow() {
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    title: 'Tough Love Arena', // overridden once page finishes loading
     width: 1280,
     height: 720,
     autoHideMenuBar: true,
