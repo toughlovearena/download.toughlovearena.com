@@ -1,7 +1,7 @@
 {
   "name": "tough-love-arena",
   "version": "0.91.2",
-  "description": "Create desktop applications for toughlovearena.com",
+  "description": "Indie fighting game with rollback netcode",
   "author": "M. Paul Weeks and Amy Xu",
   "license": "MIT",
   "main": "src/main.js",
