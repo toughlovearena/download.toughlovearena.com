@@ -2,6 +2,9 @@ name: Debug Steam
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - debug-steam-*
 
 jobs:
   # https://stackoverflow.com/a/65434401
