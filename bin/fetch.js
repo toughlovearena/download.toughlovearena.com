@@ -1,64 +1,32 @@
-const deleter = require('delete');
-const fetch = require('node-fetch');
 const fs = require('fs');
-const sevenBin = require('7zip-bin');
-const { extractFull: sevenExtract } = require('node-7z');
-const { fetchPath: path } = require('./path');
-
+const { fetchPath, downloadDist, unzipDist } = require('./path');
 const fsPromises = fs.promises;
-const pathTo7zip = sevenBin.path7za;
-
-const downloadDist = async (version) => {
-  const url = path.remoteDist(version);
-  console.log('downloading:', url.split('/').slice(-1)[0]);
-  await deleter.promise([path.tempDist]);
-  const latestResp = await fetch(url);
-  if (latestResp.status !== 200) {
-    throw new Error('Response status was ' + latestResp.status);
-  }
-  const stream = fs.createWriteStream(path.tempDist);
-  await new Promise((resolve, reject) => {
-    stream.on('error', reject);
-    stream.on('finish', resolve);
-    latestResp.body.pipe(stream);
-  });
-  console.log('finished download');
-};
-
-const unzipDist = async () => {
-  console.log('unzipping...');
-  await deleter.promise([path.latestDist]);
-  await new Promise((resolve, reject) => {
-    const process = sevenExtract(path.tempDist, path.latestDist, {
-      $bin: pathTo7zip,
-    });
-    process.on('end', () => resolve());
-    process.on('error', () => reject());
-  });
-  await deleter.promise([path.tempDist]);
-}
 
 const fetchLatest = async () => {
-  const packageFile = await fsPromises.readFile(path.packageJson);
+  const packageFile = await fsPromises.readFile('package.json');
   const packageJson = JSON.parse(packageFile);
   const newVersion = packageJson.version;
 
   let oldAppVersion;
   try {
-    const oldAppVersionRaw = await fsPromises.readFile(path.latestVersion);
+    console.log('checking for existing app:', fetchPath.existingVersionFile);
+    const oldAppVersionRaw = await fsPromises.readFile(fetchPath.existingVersionFile);
     oldAppVersion = JSON.parse(oldAppVersionRaw).v;
+    console.log('existing app found:', oldAppVersion);
   } catch (e) {
     // do nothing
+    console.log('existing app not found');
   }
 
-  console.log(oldAppVersion, newVersion);
-  if (!oldAppVersion || oldAppVersion !== newVersion) {
-    await downloadDist(newVersion);
-    await unzipDist();
-  } else {
+  console.log('checking if update needed:', oldAppVersion, newVersion);
+  if (oldAppVersion && oldAppVersion === newVersion) {
     console.log('already up to date');
+    return;
   }
 
+  const url = fetchPath.versionUrl(newVersion);
+  await downloadDist(url, fetchPath.tempDist);
+  await unzipDist(fetchPath.tempDist, fetchPath.latestDist);
   console.log('done!');
 };
 fetchLatest();

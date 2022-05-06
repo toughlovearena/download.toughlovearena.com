@@ -11,12 +11,10 @@ const debugPath = {
   url: `https://data.toughlovearena.cloud/debug/dev-latest.7z`,
 };
 const fetchPath = {
-  packageJson: 'package.json',
+  existingVersionFile: 'app/version.json',
   latestDist: 'app',
-  latestVersion: 'app/version.json',
   tempDist: 'fetch.7z',
-  remoteVersion: 'http://storage.googleapis.com/fighter-html/version.json',
-  remoteDist: version => `http://storage.googleapis.com/fighter-html/${version}.7z`,
+  versionUrl: version => `https://data.toughlovearena.cloud/zip/${version}.7z`,
 };
 
 function replaceLine(path, before, after) {
