@@ -1,0 +1,166 @@
+name: Debug Steam
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # https://stackoverflow.com/a/65434401
+  matrix_prep:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Export matrix.json
+        id: set-matrix
+        run: |
+          matrix=$(cat steam.matrix.json)
+          echo $matrix
+          echo ::set-output name=matrix::{\"include\":$(echo $matrix)}\"
+
+  build:
+    needs: matrix_prep
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+
+    runs-on: ${{ matrix.runs-on }}
+
+    steps:
+      - name: Starting ${{ matrix.label }}
+        run: |
+          echo "electron-builder-args: ${{ matrix.electron-builder-args }}"
+
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Install Node.js, NPM and Yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.17.1
+
+      - name: Prepare Electron app config (Unix)
+        if: ${{ !startsWith(matrix.runs-on, 'windows') }}
+        run: |
+          rm src/appConfig.js
+          cp src/${{ matrix.app-config }} src/appConfig.js
+
+      - name: Prepare Electron app config (Windows)
+        if: startsWith(matrix.runs-on, 'windows')
+        run: |
+          rm src/appConfig.js
+          copy src/${{ matrix.app-config }} src/appConfig.js
+
+      # https://github.com/samuelmeuli/action-electron-builder
+      # https://samuelmeuli.com/blog/2019-12-28-notarizing-your-electron-app/
+      - name: Prepare for app notarization
+        if: startsWith(matrix.runs-on, 'macos')
+        # Import Apple API key for app notarization on macOS
+        run: |
+          mkdir -p ~/private_keys/
+          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+
+      # https://github.com/jsoma/action-electron-forge
+      - name: Build Electron app
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          # GitHub token, automatically provided to the action
+          # (No need to define this secret in the repo settings)
+          github_token: ${{ secrets.github_token }}
+          mac_certs: ${{ secrets.mac_certs }}
+          mac_certs_password: ${{ secrets.mac_certs_password }}
+
+          build_script_name: fetch-debug
+
+          # os specific args
+          # https://www.electron.build/configuration/mac
+          # https://www.electron.build/configuration/win
+          # https://www.electron.build/configuration/linux
+          args: ${{ matrix.electron-builder-args }}
+          release: ${{ matrix.github-release }}
+        env:
+          # macOS notarization API key
+          API_KEY_ID: ${{ secrets.api_key_id }}
+          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
+
+      # https://levelup.gitconnected.com/github-actions-how-to-share-data-between-jobs-fc1547defc3e
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.artifact-key }}
+          path: dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
+
+      - name: Set variables
+        id: vars
+        run: |
+          version=$(npx -c 'echo "$npm_package_version"')
+          echo ::set-output name=version::"$version"
+          echo ::set-output name=buildDescription::"v$version"
+
+      - name: Download mac artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: steam-mac
+          path: electron/mac
+
+      - name: Download windows artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: steam-windows
+          path: electron/windows
+
+      - name: Download linux artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: steam-linux
+          path: electron/linux
+
+      # todo https://github.com/marketplace/actions/delete-run-artifacts
+
+      - name: Rename versioned files for distribution
+        run: |
+          mkdir steam
+          mkdir steam/mac
+          mkdir steam/windows
+          mkdir steam/linux
+          echo "Renaming mac"
+          mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/tla.zip"
+          echo "Renaming windows"
+          mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
+          echo "Renaming linux"
+          mv "electron/linux/Tough Love Arena-${{ steps.vars.outputs.version }}.AppImage" "steam/linux/Tough Love Arena.AppImage"
+
+      - name: Unzip mac
+        uses: edgarrc/action-7z@v1
+        with:
+          args: 7z x steam/mac/tla.zip -osteam/mac/
+
+      - name: Cleanup mac zip
+        run: |
+          rm steam/mac/tla.zip
+
+      - name: Deploy to Steam
+        uses: game-ci/steam-deploy@v1
+        with:
+          appId: ${{ secrets.STEAM_APP_ID }}
+          username: ${{ secrets.STEAM_USERNAME }}
+          password: ${{ secrets.STEAM_PASSWORD }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
+          ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
+          ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
+          buildDescription: ${{ steps.vars.outputs.buildDescription }}
+          rootPath: steam
+          depot1Path: mac
+          depot2Path: windows
+          depot3Path: linux
+          releaseBranch: debug
