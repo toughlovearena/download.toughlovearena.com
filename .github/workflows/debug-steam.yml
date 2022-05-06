@@ -105,7 +105,8 @@ jobs:
         run: |
           version=$(npx -c 'echo "$npm_package_version"')
           echo ::set-output name=version::"$version"
-          echo ::set-output name=buildDescription::"v$version"
+          commit=$(git rev-parse --short HEAD)
+          echo ::set-output name=buildDescription::"commit $commit"
 
       - name: Download mac artifacts
         uses: actions/download-artifact@v3
