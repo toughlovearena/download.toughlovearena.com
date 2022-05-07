@@ -111,11 +111,11 @@ jobs:
           commit=$(git rev-parse --short HEAD)
           echo ::set-output name=buildDescription::"commit $commit"
 
-      - name: Download mac artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: steam-mac
-          path: electron/mac
+      # - name: Download mac artifacts
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: steam-mac
+      #     path: electron/mac
 
       - name: Download windows artifacts
         uses: actions/download-artifact@v3
@@ -123,11 +123,11 @@ jobs:
           name: steam-windows
           path: electron/windows
 
-      - name: Download linux artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: steam-linux
-          path: electron/linux
+      # - name: Download linux artifacts
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: steam-linux
+      #     path: electron/linux
 
       # todo https://github.com/marketplace/actions/delete-run-artifacts
 
