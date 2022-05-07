@@ -1,0 +1,22 @@
+[{
+  "label": "mac / steam",
+  "app-config": "steam.appConfig.js",
+  "electron-builder-args": "zip",
+  "github-release": false,
+  "artifact-key": "steam-mac",
+  "runs-on": "macos-latest"
+}, {
+  "label": "windows / steam",
+  "app-config": "steam.appConfig.js",
+  "electron-builder-args": "portable",
+  "github-release": false,
+  "artifact-key": "steam-windows",
+  "runs-on": "windows-latest"
+}, {
+  "label": "linux / steam",
+  "app-config": "steam.appConfig.js",
+  "electron-builder-args": "AppImage",
+  "github-release": false,
+  "artifact-key": "steam-linux",
+  "runs-on": "ubuntu-latest"
+}]

@@ -19,7 +19,7 @@ jobs:
       - name: Export matrix.json
         id: set-matrix
         run: |
-          matrix=$(cat steam.matrix.json)
+          matrix=$(cat debug-steam.matrix.json)
           echo $matrix
           echo ::set-output name=matrix::{\"include\":$(echo $matrix)}\"
 
