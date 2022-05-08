@@ -2,10 +2,15 @@
 // https://www.electronjs.org/docs/tutorial/quick-start
 
 // Modules to control application life and create native browser window
+const os = requires('os');
 const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const path = require('path');
 const appConfig = require('./appConfig');
+
+const isMac = os.platform() === "darwin";
+const isWindows = os.platform() === "win32";
+const isLinux = os.platform() === "linux";
 
 function createWindow() {
   // todo disable security for mod files?
@@ -17,6 +22,10 @@ function createWindow() {
     width: 1280,
     height: 720,
     autoHideMenuBar: true,
+    icon: (
+      (isWindows && 'build/win.ico') ||
+      undefined
+    ),
     webPreferences: {
       devTools: !appConfig.isSteam,
       preload: path.join(__dirname, 'preload.js'),
