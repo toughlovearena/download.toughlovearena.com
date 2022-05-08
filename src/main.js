@@ -2,7 +2,7 @@
 // https://www.electronjs.org/docs/tutorial/quick-start
 
 // Modules to control application life and create native browser window
-const os = requires('os');
+const os = require('os');
 const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const path = require('path');
