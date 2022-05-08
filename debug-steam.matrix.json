@@ -1,7 +1,7 @@
 [{
   "label": "windows / steam",
   "app-config": "steam.appConfig.js",
-  "electron-builder-args": "zip",
+  "electron-builder-args": "portable",
   "github-release": false,
   "artifact-key": "steam-windows",
   "runs-on": "windows-latest"
