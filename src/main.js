@@ -24,10 +24,10 @@ function createWindow() {
     width: 1280,
     height: 720,
     autoHideMenuBar: true,
-    // icon: (
-    //   (isWindows && 'build/win.ico') ||
-    //   undefined
-    // ),
+    icon: (
+      (isWindows && 'build/win.ico') ||
+      undefined
+    ),
     webPreferences: {
       devTools: !appConfig.isSteam,
       preload: path.join(__dirname, 'preload.js'),
