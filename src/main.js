@@ -3,7 +3,7 @@
 
 // Modules to control application life and create native browser window
 const os = require('os');
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Tray, nativeImage } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const path = require('path');
 const appConfig = require('./appConfig');
@@ -24,15 +24,21 @@ function createWindow() {
     width: 1280,
     height: 720,
     autoHideMenuBar: true,
-    icon: (
-      (isWindows && 'build/win.ico') ||
-      undefined
-    ),
+    // icon: (
+    //   (isWindows && 'build/win.ico') ||
+    //   undefined
+    // ),
     webPreferences: {
       devTools: !appConfig.isSteam,
       preload: path.join(__dirname, 'preload.js'),
     },
-  })
+  });
+
+  if (isWindows) {
+    // https://stackoverflow.com/a/48785074
+    const iconPath = path.join(__dirname, 'build/icon.png');
+    mainWindow.tray = new Tray(nativeImage.createFromPath(iconPath));
+  }
 
   // and load the index.html of the app.
   const loadPromise = mainWindow.loadFile('app/index.html');
