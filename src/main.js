@@ -19,7 +19,7 @@ function createWindow() {
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    title: `Tough Love Arena | ${osPlatform} | 256x256`,
+    title: `Tough Love Arena | ${osPlatform} | 8bit 256x256`,
     // title: 'Tough Love Arena', // overridden once page finishes loading
     width: 1280,
     height: 720,
