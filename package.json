@@ -37,6 +37,9 @@
     "dmg": {
       "icon": false
     },
+    "win": {
+      "icon": "build/icon-256x256.png"
+    },
     "linux": {
       "target": [
         "AppImage"
