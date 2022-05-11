@@ -38,7 +38,7 @@
       "icon": false
     },
     "win": {
-      "icon": "build/icon-256x256.png"
+      "icon": "build/icofx.ico"
     },
     "linux": {
       "target": [
