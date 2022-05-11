@@ -84,6 +84,25 @@ Lessons learned the hard way
 
 Check https://developer.apple.com/account/ to see if you need to sign any new agreements
 
+### window icon not appearing the in taskbar
+
+`icon.png` was working fine for Mac and desktop display, but the image appeared heavily truncated in the application menubar (top left) and the Windows taskbar (aka Application Dashboard)
+
+Fix:
+
+- 256px x 256px PNG file
+- Make sure electron-builder uses it for windows
+  - e.g. build.win.icon: "build/icon-256x256.png"
+- Save it with "8-bit" Bit Depth
+  - e.g. using paint.net on Windows
+
+Sources:
+
+- https://github.com/electron-userland/electron-builder/issues/810
+- https://github.com/electron-userland/electron-builder/issues/2128#issuecomment-411797743
+- https://github.com/electron-userland/electron-builder/issues/5083
+- https://github.com/mb21/panwriter/issues/2
+
 ## credits
 
 Big thanks to the following resources/guides:
