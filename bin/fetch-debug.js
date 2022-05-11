@@ -1,4 +1,4 @@
-const { debugPath, downloadDist } = require('./path');
+const { debugPath, downloadDist, unzipDist } = require('./path');
 
 const fetchDebug = async () => {
   await downloadDist(debugPath.url, debugPath.tempDist);
