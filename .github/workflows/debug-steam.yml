@@ -111,11 +111,17 @@ jobs:
           commit=$(git rev-parse --short HEAD)
           echo ::set-output name=buildDescription::"commit $commit"
 
-      # - name: Download mac artifacts
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: steam-mac
-      #     path: electron/mac
+      - name: Debug Tree
+        run: tree
+
+      - name: Download mac artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: steam-mac
+          path: electron/mac
+
+      - name: Debug Tree
+        run: tree
 
       - name: Download windows artifacts
         uses: actions/download-artifact@v3
@@ -123,15 +129,18 @@ jobs:
           name: steam-windows
           path: electron/windows
 
-      # - name: Download linux artifacts
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: steam-linux
-      #     path: electron/linux
+      - name: Debug Tree
+        run: tree
+
+      - name: Download linux artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: steam-linux
+          path: electron/linux
 
       # todo https://github.com/marketplace/actions/delete-run-artifacts
 
-      - name: Tree
+      - name: Debug Tree
         run: tree
 
       - name: Rename versioned files for distribution
@@ -140,21 +149,30 @@ jobs:
           mkdir steam/mac
           mkdir steam/windows
           mkdir steam/linux
+          echo "Renaming mac"
+          mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/tla.zip"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
-        # echo "Renaming mac"
-        # mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/tla.zip"
-        # echo "Renaming linux"
-        # mv "electron/linux/Tough Love Arena-${{ steps.vars.outputs.version }}.AppImage" "steam/linux/Tough Love Arena.AppImage"
+          echo "Renaming linux"
+          mv "electron/linux/Tough Love Arena-${{ steps.vars.outputs.version }}.AppImage" "steam/linux/Tough Love Arena.AppImage"
 
-      # - name: Unzip mac
-      #   uses: edgarrc/action-7z@v1
-      #   with:
-      #     args: 7z x steam/mac/tla.zip -osteam/mac/
+      - name: Debug Tree
+        run: tree
 
-      # - name: Cleanup mac zip
-      #   run: |
-      #     rm steam/mac/tla.zip
+      - name: Unzip mac
+        uses: edgarrc/action-7z@v1
+        with:
+          args: 7z x steam/mac/tla.zip -osteam/mac/
+
+      - name: Debug Tree
+        run: tree
+
+      - name: Cleanup mac zip
+        run: |
+          rm steam/mac/tla.zip
+
+      - name: Debug Tree
+        run: tree
 
       - name: Deploy to Steam
         uses: game-ci/steam-deploy@v1
@@ -167,7 +185,7 @@ jobs:
           ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
           buildDescription: ${{ steps.vars.outputs.buildDescription }}
           rootPath: steam
-          # depot1Path: mac
+          depot1Path: mac
           depot2Path: windows
-          # depot3Path: linux
+          depot3Path: linux
           releaseBranch: debug
