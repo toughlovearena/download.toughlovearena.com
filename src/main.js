@@ -8,9 +8,10 @@ const { autoUpdater } = require("electron-updater");
 const path = require('path');
 const appConfig = require('./appConfig');
 
-const isMac = os.platform() === "darwin";
-const isWindows = os.platform() === "win32";
-const isLinux = os.platform() === "linux";
+const osPlatform = os.platform();
+const isMac = osPlatform === "darwin";
+const isWindows = osPlatform === "win32";
+const isLinux = osPlatform === "linux";
 
 function createWindow() {
   // todo disable security for mod files?
@@ -18,14 +19,15 @@ function createWindow() {
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    title: 'Tough Love Arena', // overridden once page finishes loading
+    title: `Tough Love Arena | ${osPlatform}`,
+    // title: 'Tough Love Arena', // overridden once page finishes loading
     width: 1280,
     height: 720,
     autoHideMenuBar: true,
-    icon: (
-      (isWindows && 'build/win.ico') ||
-      undefined
-    ),
+    // icon: (
+    //   (isWindows && 'build/win.ico') ||
+    //   undefined
+    // ),
     webPreferences: {
       devTools: !appConfig.isSteam,
       preload: path.join(__dirname, 'preload.js'),
