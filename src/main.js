@@ -19,7 +19,7 @@ function createWindow() {
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    title: `Tough Love Arena | ${osPlatform} | win.ico`,
+    title: `Tough Love Arena | ${osPlatform} | 256x256`,
     // title: 'Tough Love Arena', // overridden once page finishes loading
     width: 1280,
     height: 720,
@@ -33,11 +33,6 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
-
-  if (isWindows) {
-    // https://stackoverflow.com/a/48785074
-    mainWindow.tray = new Tray(nativeImage.createFromPath('build/win.ico'));
-  }
 
   // and load the index.html of the app.
   const loadPromise = mainWindow.loadFile('app/index.html');
