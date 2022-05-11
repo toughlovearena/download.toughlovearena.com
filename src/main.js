@@ -2,10 +2,16 @@
 // https://www.electronjs.org/docs/tutorial/quick-start
 
 // Modules to control application life and create native browser window
+const os = require('os');
 const { app, BrowserWindow } = require('electron');
 const { autoUpdater } = require("electron-updater");
 const path = require('path');
 const appConfig = require('./appConfig');
+
+const osPlatform = os.platform();
+// const isMac = osPlatform === "darwin";
+// const isWindows = osPlatform === "win32";
+// const isLinux = osPlatform === "linux";
 
 function createWindow() {
   // todo disable security for mod files?
@@ -13,7 +19,7 @@ function createWindow() {
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    title: 'Tough Love Arena', // overridden once page finishes loading
+    title: `Tough Love Arena | ${osPlatform}`, // overridden once page finishes loading
     width: 1280,
     height: 720,
     autoHideMenuBar: true,
@@ -21,7 +27,7 @@ function createWindow() {
       devTools: !appConfig.isSteam,
       preload: path.join(__dirname, 'preload.js'),
     },
-  })
+  });
 
   // and load the index.html of the app.
   const loadPromise = mainWindow.loadFile('app/index.html');
