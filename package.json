@@ -37,9 +37,6 @@
     "dmg": {
       "icon": false
     },
-    "win": {
-      "icon": "build/icofx.ico"
-    },
     "linux": {
       "target": [
         "AppImage"
