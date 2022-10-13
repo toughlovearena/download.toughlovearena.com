@@ -6,7 +6,7 @@ Download a desktop version of [Tough Love Arena](https://toughlovearena.com) tha
   <img src="docs/desktop.jpg" style="width:100%; height:auto; max-width:600px;">
 </p>
 
-⚠️ THE DESKTOP VERSION IS NEW AND MAY HAVE BUGS. PLEASE USE THE WEBSITE WHEN POSSIBLE ⚠️
+This is a free release to make running offline events easier. If you would like to support us financially and/or get additional cosmetics, please see check us out on [Steam](https://store.steampowered.com/app/1807330/Tough_Love_Arena/).
 
 ### How to Download
 
@@ -22,10 +22,11 @@ You can download the latest version of Tough Love Arena via [GitHub Releases](ht
 ### PLEASE READ THESE IMPORTANT NOTES
 
 - The Tough Love Arena desktop application is no different from the website [toughlovearena.com](https://toughlovearena.com)
+- When there is an update to the game, the desktop version will usually be behind for ~10 minutes
+  - If the patch affects gameplay, you will not be able to play online until the desktop client updates
 - The desktop application is designed to assist those who wish to play offline or on the go
-- If you are running an offline tournament or event, please use this downloadable version to avoid any network issues
+  - If you are running an offline tournament or event, please use this downloadable version to avoid any network issues
 - The game will automatically check for updates on startup and then every 5 minutes
-- If there's been an update, you will see a notification telling you to close the application so it can update itself
-- If you download/use an old installer, it will install that version, but then auto-update as soon as you launch it
-- If you wish to continue using an older version, use an old installer, then disable your internet connection
-- An official release via Steam is planned, but not ready yet
+  - If there's been an update, you will see a notification telling you to close the application so it can update itself
+  - If you download/use an old installer, it will install that version, but then auto-update as soon as you launch it
+  - If you wish to continue using an older version, use an old installer, then disable your internet connection
