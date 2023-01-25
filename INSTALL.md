@@ -6,6 +6,18 @@ Most of the heavy work is already done via GitHub actions and node scripts. It j
 
 Important things to know about this repository and workflow.
 
+### testing locally
+
+```bash
+# download app locally
+yarn fetch
+# or
+yarn fetch-debug
+
+# run electron of local files
+yarn start
+```
+
 ### triggering run
 
 [release.yml](.github/workflows/release.yml) is currently triggered when a new version tag is pushed to remote. These are the steps:
