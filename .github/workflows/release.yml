@@ -19,7 +19,7 @@ jobs:
       - name: Export matrix.json
         id: set-matrix
         run: |
-          matrix=$(cat matrix/github.matrix.json)
+          matrix=$(cat matrix/release.matrix.json)
           echo $matrix
           echo ::set-output name=matrix::{\"include\":$(echo $matrix)}\"
 
