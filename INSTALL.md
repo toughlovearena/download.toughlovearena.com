@@ -90,6 +90,16 @@ Built on top of [game-ci/steam-deploy](https://github.com/game-ci/steam-deploy)
 
 Lessons learned the hard way
 
+### github actions
+
+> 1+ builds fail
+
+For `release.yml`, you need to delete the draft release before retrying
+
+> `socket hang up`
+
+You didn't delete the assets from the draft release before retrying
+
 ### mac errors
 
 > You must first sign the relevant contracts online.

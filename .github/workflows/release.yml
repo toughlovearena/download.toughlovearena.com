@@ -7,15 +7,35 @@ on:
       - v[0-9]+.[0-9]+.[0-9]+
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  # https://stackoverflow.com/a/65434401
+  matrix_prep:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v1
 
+      - name: Export matrix.json
+        id: set-matrix
+        run: |
+          matrix=$(cat matrix/release.matrix.json)
+          echo $matrix
+          echo ::set-output name=matrix::{\"include\":$(echo $matrix)}\"
+
+  build:
+    needs: matrix_prep
     strategy:
       fail-fast: false
-      matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+      matrix: ${{fromJson(needs.matrix_prep.outputs.matrix)}}
+
+    runs-on: ${{ matrix.runs-on }}
 
     steps:
+      - name: Starting ${{ matrix.label }}
+        run: |
+          echo "electron-builder-args: ${{ matrix.electron-builder-args }}"
+
       - name: Check out Git repository
         uses: actions/checkout@v1
 
@@ -24,10 +44,22 @@ jobs:
         with:
           node-version: 14.17.1
 
+      - name: Prepare Electron app config (Unix)
+        if: ${{ !startsWith(matrix.runs-on, 'windows') }}
+        run: |
+          rm src/appConfig.js
+          cp src/${{ matrix.app-config }} src/appConfig.js
+
+      - name: Prepare Electron app config (Windows)
+        if: startsWith(matrix.runs-on, 'windows')
+        run: |
+          rm src/appConfig.js
+          copy src/${{ matrix.app-config }} src/appConfig.js
+
       # https://github.com/samuelmeuli/action-electron-builder
       # https://samuelmeuli.com/blog/2019-12-28-notarizing-your-electron-app/
       - name: Prepare for app notarization
-        if: startsWith(matrix.os, 'macos')
+        if: startsWith(matrix.runs-on, 'macos')
         # Import Apple API key for app notarization on macOS
         run: |
           mkdir -p ~/private_keys/
@@ -45,15 +77,22 @@ jobs:
 
           build_script_name: fetch
 
-          # If the commit is tagged with a version (e.g. "v1.0.0"),
-          # release the app after building
-          release: true
-          # release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          # os specific args
+          # https://www.electron.build/configuration/mac
+          # https://www.electron.build/configuration/win
+          # https://www.electron.build/configuration/linux
+          # https://www.electron.build/configuration/publish
+          args: ${{ matrix.electron-builder-args }} --publish always
+
+          # use args for release (publish)
+          # https://github.com/samuelmeuli/action-electron-builder/blob/master/index.js#L134
+          release: false
         env:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
 
+  # where it diverges from steam.yml
   release:
     needs: build
     runs-on: ubuntu-latest
