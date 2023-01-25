@@ -83,7 +83,10 @@ jobs:
           # https://www.electron.build/configuration/linux
           # https://www.electron.build/configuration/publish
           args: ${{ matrix.electron-builder-args }} --publish never
-          release: ${{ matrix.github-release }}
+
+          # use args for release (publish)
+          # https://github.com/samuelmeuli/action-electron-builder/blob/master/index.js#L134
+          release: false
         env:
           # macOS notarization API key
           API_KEY_ID: ${{ secrets.api_key_id }}
