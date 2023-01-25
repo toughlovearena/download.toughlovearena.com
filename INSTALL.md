@@ -15,7 +15,7 @@ yarn fetch
 yarn fetch-debug
 
 # run electron of local files
-yarn electron
+yarn start
 ```
 
 ### triggering run
