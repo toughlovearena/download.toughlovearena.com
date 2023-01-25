@@ -1,7 +1,7 @@
 [{
   "label": "mac / github",
   "app-config": "github.appConfig.js",
-  "electron-builder-args": "dmg",
+  "electron-builder-args": "dmg zip",
   "artifact-key": "",
   "runs-on": "macos-latest"
 }, {
