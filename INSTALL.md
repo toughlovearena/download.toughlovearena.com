@@ -98,7 +98,7 @@ For `release.yml`, you need to delete the draft release before retrying
 
 > `socket hang up`
 
-You didn't delete the draft release before retrying
+You didn't delete the assets from the draft release before retrying
 
 ### mac errors
 

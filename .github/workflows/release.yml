@@ -59,7 +59,7 @@ jobs:
       # https://github.com/samuelmeuli/action-electron-builder
       # https://samuelmeuli.com/blog/2019-12-28-notarizing-your-electron-app/
       - name: Prepare for app notarization
-        if: startsWith(matrix.os, 'macos')
+        if: startsWith(matrix.runs-on, 'macos')
         # Import Apple API key for app notarization on macOS
         run: |
           mkdir -p ~/private_keys/
