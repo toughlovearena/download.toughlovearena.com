@@ -19,7 +19,7 @@ jobs:
       - name: Export matrix.json
         id: set-matrix
         run: |
-          matrix=$(cat github.matrix.json)
+          matrix=$(cat matrix/github.matrix.json)
           echo $matrix
           echo ::set-output name=matrix::{\"include\":$(echo $matrix)}\"
 
@@ -89,6 +89,7 @@ jobs:
           API_KEY_ID: ${{ secrets.api_key_id }}
           API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
 
+  # where it diverges from steam.yml
   release:
     needs: build
     runs-on: ubuntu-latest
