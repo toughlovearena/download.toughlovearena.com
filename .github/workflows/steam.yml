@@ -96,6 +96,7 @@ jobs:
           name: ${{ matrix.artifact-key }}
           path: dist/
 
+  # where it diverges from release.yml
   deploy:
     needs: build
     runs-on: ubuntu-latest
