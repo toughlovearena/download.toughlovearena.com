@@ -1,4 +1,4 @@
-# download.toughlovearena.com
+# [download.toughlovearena.com](https://download.toughlovearena.com)
 
 Download a desktop version of [Tough Love Arena](https://toughlovearena.com) that works offline!
 
