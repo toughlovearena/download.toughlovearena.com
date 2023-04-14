@@ -1,6 +1,3 @@
-<!-- head -->
-<link rel="shortcut icon" type="image/png" href="docs/favicon.png">
-
 # download.toughlovearena.com
 
 Download a desktop version of [Tough Love Arena](https://toughlovearena.com) that works offline!
