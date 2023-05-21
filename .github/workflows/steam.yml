@@ -39,10 +39,10 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v1
 
-      - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v1
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          node-version: 14.17.1
+          node-version-file: .nvmrc
 
       - name: Prepare Electron app config (Unix)
         if: ${{ !startsWith(matrix.runs-on, 'windows') }}
