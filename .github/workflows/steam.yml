@@ -158,14 +158,11 @@ jobs:
           rm steam/mac/tla.zip
 
       - name: Deploy to Steam
-        uses: game-ci/steam-deploy@v1
+        uses: game-ci/steam-deploy@v3
         with:
           appId: ${{ secrets.STEAM_APP_ID }}
           username: ${{ secrets.STEAM_USERNAME }}
-          password: ${{ secrets.STEAM_PASSWORD }}
           configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
-          ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
-          ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
           buildDescription: ${{ steps.vars.outputs.buildDescription }}
           rootPath: steam
           depot1Path: mac
