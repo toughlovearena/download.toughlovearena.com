@@ -179,15 +179,18 @@ jobs:
       - name: Debug Tree
         run: tree
 
+      - name: Generate TOTP
+        uses: CyberAndrii/steam-totp@v1
+        id: steam-totp
+        with:
+          shared_secret: ${{ secrets.STEAM_SHARED_SECRET }}
+
       - name: Deploy to Steam
-        uses: game-ci/steam-deploy@v1
+        uses: game-ci/steam-deploy@v3
         with:
           appId: ${{ secrets.STEAM_APP_ID }}
           username: ${{ secrets.STEAM_USERNAME }}
-          password: ${{ secrets.STEAM_PASSWORD }}
-          configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
-          ssfnFileName: ${{ secrets.STEAM_SSFN_FILE_NAME }}
-          ssfnFileContents: ${{ secrets.STEAM_SSFN_FILE_CONTENTS }}
+          totp: ${{ steps.steam-totp.outputs.code }}
           buildDescription: ${{ steps.vars.outputs.buildDescription }}
           rootPath: steam
           depot1Path: mac
