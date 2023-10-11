@@ -7,7 +7,7 @@
 }, {
   "label": "windows / github",
   "app-config": "github.appConfig.js",
-  "electron-builder-args": "nsis",
+  "electron-builder-args": "nsis portable",
   "artifact-key": "",
   "runs-on": "windows-latest"
 }, {
