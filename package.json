@@ -1,6 +1,6 @@
 {
   "name": "tough-love-arena",
-  "version": "0.106.1",
+  "version": "0.106.2",
   "description": "Indie fighting game with rollback netcode",
   "author": "M. Paul Weeks and Amy Xu",
   "license": "MIT",
