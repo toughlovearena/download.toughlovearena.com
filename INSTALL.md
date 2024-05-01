@@ -2,6 +2,26 @@
 
 Most of the heavy work is already done via GitHub actions and node scripts. It just needs a little help setting up.
 
+## debugging mac notarization 2024/04/30
+
+the error: https://github.com/toughlovearena/download.toughlovearena.com/actions/runs/8411525704/job/23031218877#step:8:74
+
+```log
+2024-03-24 19:13:25.833 *** Warning: Notarization of MacOS applications using altool has been decommissioned. Please use notarytool. See: https://developer.apple.com/documentation/technotes/tn3147-migrating-to-the-latest-notarization-tool (-1030)
+```
+current electron action appears to be extremely out of date and unmaintained: https://github.com/samuelmeuli/action-electron-builder/issues/101
+
+### paths forward
+1. try to follow conversation and fix from other lib users: https://github.com/buttercup/buttercup-desktop/issues/1307
+2. use electron builder directly in build script: https://github.com/electron-userland/electron-builder
+3. use this newer, simpler github action: https://github.com/x6pnda/action-electron-compiler
+
+once done, revert these commits
+
+- https://github.com/toughlovearena/download.toughlovearena.com/commit/cf7e380e3e9a5e369decaf361222a7f61c9f7ec2
+- https://github.com/toughlovearena/download.toughlovearena.com/commit/505d4f41d49531c876d0457e909ac51bd5458636
+- https://github.com/toughlovearena/download.toughlovearena.com/commit/82c7dcdbea37c08dcac7f18e92e1ecd8a737b79f
+
 ## setting up
 
 Important things to know about this repository and workflow.
