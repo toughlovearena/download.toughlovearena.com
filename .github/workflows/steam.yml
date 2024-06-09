@@ -138,12 +138,24 @@ jobs:
       - name: Rename versioned files for distribution
         run: |
           mkdir steam
+          mkdir steam/mac
           mkdir steam/windows
           mkdir steam/linux
+          echo "Renaming mac"
+          mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/tla.zip"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
           mv "electron/linux/Tough Love Arena-${{ steps.vars.outputs.version }}.AppImage" "steam/linux/Tough Love Arena.AppImage"
+
+      - name: Unzip mac
+        uses: edgarrc/action-7z@v1
+        with:
+          args: 7z x steam/mac/tla.zip -osteam/mac/
+
+      - name: Cleanup mac zip
+        run: |
+          rm steam/mac/tla.zip
 
       - name: Deploy to Steam
         uses: game-ci/steam-deploy@v3
@@ -153,6 +165,7 @@ jobs:
           configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
           buildDescription: ${{ steps.vars.outputs.buildDescription }}
           rootPath: steam
+          depot1Path: mac
           depot2Path: windows
           depot3Path: linux
           releaseBranch: github
