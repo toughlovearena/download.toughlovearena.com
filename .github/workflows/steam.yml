@@ -115,11 +115,11 @@ jobs:
           echo ::set-output name=version::"$version"
           echo ::set-output name=buildDescription::"v$version"
 
-      # - name: Download mac artifacts
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: steam-mac
-      #     path: electron/mac
+      - name: Download mac artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: steam-mac
+          path: electron/mac
 
       - name: Download windows artifacts
         uses: actions/download-artifact@v3
