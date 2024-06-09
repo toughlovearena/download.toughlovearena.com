@@ -151,7 +151,7 @@ jobs:
           mkdir steam/windows
           mkdir steam/linux
           echo "Renaming mac"
-          mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/tla.zip"
+          mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-arm64-mac.zip" "steam/mac/tla.zip"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
