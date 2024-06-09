@@ -1,4 +1,10 @@
 [{
+  "label": "mac / github",
+  "app-config": "github.appConfig.js",
+  "electron-builder-args": "dmg zip",
+  "artifact-key": "",
+  "runs-on": "macos-latest"
+}, {
   "label": "windows / github",
   "app-config": "github.appConfig.js",
   "electron-builder-args": "nsis portable",

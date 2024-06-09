@@ -87,10 +87,6 @@ jobs:
           # use args for release (publish)
           # https://github.com/samuelmeuli/action-electron-builder/blob/master/index.js#L134
           release: false
-        env:
-          # macOS notarization API key
-          API_KEY_ID: ${{ secrets.api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
 
       # https://levelup.gitconnected.com/github-actions-how-to-share-data-between-jobs-fc1547defc3e
       - name: Upload artifacts
@@ -115,11 +111,11 @@ jobs:
           echo ::set-output name=version::"$version"
           echo ::set-output name=buildDescription::"v$version"
 
-      # - name: Download mac artifacts
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: steam-mac
-      #     path: electron/mac
+      - name: Download mac artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: steam-mac
+          path: electron/mac
 
       - name: Download windows artifacts
         uses: actions/download-artifact@v3
@@ -138,12 +134,24 @@ jobs:
       - name: Rename versioned files for distribution
         run: |
           mkdir steam
+          mkdir steam/mac
           mkdir steam/windows
           mkdir steam/linux
+          echo "Renaming mac"
+          mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-arm64-mac.zip" "steam/mac/tla.zip"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
           mv "electron/linux/Tough Love Arena-${{ steps.vars.outputs.version }}.AppImage" "steam/linux/Tough Love Arena.AppImage"
+
+      - name: Unzip mac
+        uses: edgarrc/action-7z@v1
+        with:
+          args: 7z x steam/mac/tla.zip -osteam/mac/
+
+      - name: Cleanup mac zip
+        run: |
+          rm steam/mac/tla.zip
 
       - name: Deploy to Steam
         uses: game-ci/steam-deploy@v3
@@ -153,6 +161,7 @@ jobs:
           configVdf: ${{ secrets.STEAM_CONFIG_VDF}}
           buildDescription: ${{ steps.vars.outputs.buildDescription }}
           rootPath: steam
+          depot1Path: mac
           depot2Path: windows
           depot3Path: linux
           releaseBranch: github

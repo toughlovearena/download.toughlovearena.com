@@ -87,10 +87,6 @@ jobs:
           # use args for release (publish)
           # https://github.com/samuelmeuli/action-electron-builder/blob/master/index.js#L134
           release: false
-        env:
-          # macOS notarization API key
-          API_KEY_ID: ${{ secrets.api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
 
       # https://levelup.gitconnected.com/github-actions-how-to-share-data-between-jobs-fc1547defc3e
       - name: Upload artifacts
@@ -155,7 +151,7 @@ jobs:
           mkdir steam/windows
           mkdir steam/linux
           echo "Renaming mac"
-          mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-mac.zip" "steam/mac/tla.zip"
+          mv "electron/mac/Tough Love Arena-${{ steps.vars.outputs.version }}-arm64-mac.zip" "steam/mac/tla.zip"
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"

@@ -87,10 +87,6 @@ jobs:
           # use args for release (publish)
           # https://github.com/samuelmeuli/action-electron-builder/blob/master/index.js#L134
           release: false
-        env:
-          # macOS notarization API key
-          API_KEY_ID: ${{ secrets.api_key_id }}
-          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
 
   # where it diverges from steam.yml
   release:

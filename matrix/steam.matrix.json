@@ -1,4 +1,10 @@
 [{
+  "label": "mac / steam",
+  "app-config": "steam.appConfig.js",
+  "electron-builder-args": "zip",
+  "artifact-key": "steam-mac",
+  "runs-on": "macos-latest"
+}, {
   "label": "windows / steam",
   "app-config": "steam.appConfig.js",
   "electron-builder-args": "portable",
