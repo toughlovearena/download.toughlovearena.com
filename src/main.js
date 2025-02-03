@@ -114,7 +114,13 @@ async function checkForUpdates() {
     }
   } catch (err) {
     // Ignore errors thrown because user is not connected to internet
-    if (err.message !== "net::ERR_INTERNET_DISCONNECTED") {
+    const ignore = [
+      "net::ERR_INTERNET_CHANGED",
+      "net::ERR_INTERNET_DISCONNECTED",
+    ];
+    if (ignore.includes(err.message)) {
+      // swallow
+    } else {
       throw err;
     }
   }
