@@ -90,7 +90,7 @@ jobs:
 
       # https://levelup.gitconnected.com/github-actions-how-to-share-data-between-jobs-fc1547defc3e
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact-key }}
           path: dist/
@@ -116,7 +116,7 @@ jobs:
         run: tree
 
       - name: Download mac artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: steam-mac
           path: electron/mac
@@ -125,7 +125,7 @@ jobs:
         run: tree
 
       - name: Download windows artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: steam-windows
           path: electron/windows
@@ -134,7 +134,7 @@ jobs:
         run: tree
 
       - name: Download linux artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: steam-linux
           path: electron/linux
