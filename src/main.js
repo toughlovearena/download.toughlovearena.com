@@ -37,7 +37,7 @@ function createWindow() {
     fullscreen: true,
     autoHideMenuBar: true,
     webPreferences: {
-      devTools: !appConfig.isSteam,
+      // devTools: !appConfig.isSteam,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
