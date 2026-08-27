@@ -56,7 +56,7 @@ function createWindow() {
       mainWindow.webContents.executeJavaScript(`window.ELECTRON_IS_STEAM = true;`);
       if (steamClient) {
         const steamName = steamClient.localplayer.getName();
-        mainWindow.webContents.executeJavaScript(`window.ELECTRON_STEAM_NAME = ${steamName};`);
+        mainWindow.webContents.executeJavaScript(`window.ELECTRON_STEAM_NAME = "${steamName}";`);
       }
     }
   });
