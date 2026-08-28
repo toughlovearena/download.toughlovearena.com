@@ -25,68 +25,49 @@ try {
   console.error(e);
 }
 
-function createWindow() {
+async function createWindow() {
   // todo disable security for mod files?
   // https://lifesaver.codes/answer/not-allowed-to-load-local-resource
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     title: `Tough Love Arena | ${osPlatform}`, // overridden once page finishes loading
-    width: 1280,
-    height: 720,
-    fullscreen: undefined,
+    width: 1600,
+    height: 900,
+    // fullscreen: true,
     autoHideMenuBar: true,
     webPreferences: {
+      contextIsolation: true,
       // devTools: !appConfig.isSteam,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
-  // set some ipc handlers
+  mainWindow.setMenu(null)
+  await mainWindow.loadFile('app/index.html');
+
   ipcMain.handle('electron:fullscreen:true', () => mainWindow.setFullScreen(true));
   ipcMain.handle('electron:fullscreen:false', () => mainWindow.setFullScreen(false));
-
-  // and load the index.html of the app.
-  return mainWindow.loadFile('app/index.html');
 }
+
+// set some ipc handlers
+// https://stackoverflow.com/a/68483354
+ipcMain.handle('quit-app', () => app.quit());
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   await createWindow();
-
   if (appConfig.autoUpdate) {
     startCheckingForUpdates();
   }
-
-  app.on('activate', async () => {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
-      await createWindow();
-    }
-  })
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+// Quit when all windows are closed
 app.on('window-all-closed', function () {
-  // we want to close app, even on mac
-  // if (process.platform !== 'darwin') {
   app.quit();
-  // }
 })
-
-// Communicate with preload.js
-// https://stackoverflow.com/a/68483354
-ipcMain.handle('quit-app', () => {
-  app.quit();
-});
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
 
 // https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/#auto-update
 function startCheckingForUpdates() {

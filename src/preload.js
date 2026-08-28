@@ -6,6 +6,10 @@ const steam = require("steamworks.js");
 
 console.log("running preload...");
 
+for (const dependency of ["chrome", "node", "electron"]) {
+  console.log(`${dependency}-version`, process.versions[dependency]);
+}
+
 // https://www.electronjs.org/docs/latest/tutorial/tutorial-preload
 contextBridge.exposeInMainWorld("ELECTRON_API", {
   setFullScreen: (bool) =>
@@ -15,10 +19,6 @@ contextBridge.exposeInMainWorld("ELECTRON_API", {
   // https://stackoverflow.com/a/68483354
   exit: () => ipcRenderer.invoke("quit-app"),
 });
-
-for (const dependency of ["chrome", "node", "electron"]) {
-  console.log(`${dependency}-version`, process.versions[dependency]);
-}
 
 let steamClient;
 try {
