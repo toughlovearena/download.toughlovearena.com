@@ -43,15 +43,15 @@ async function createWindow() {
     },
   });
 
-  mainWindow.setMenu(null);
-  await mainWindow.loadFile("app/index.html");
-
   ipcMain.handle("electron:fullscreen:true", () =>
     mainWindow.setFullScreen(true),
   );
   ipcMain.handle("electron:fullscreen:false", () =>
     mainWindow.setFullScreen(false),
   );
+
+  mainWindow.setMenu(null);
+  await mainWindow.loadFile("app/index.html");
 }
 
 // set some ipc handlers
