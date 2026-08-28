@@ -25,11 +25,11 @@ try {
   // steamworks.js will read the app ID from steam_appid.txt in local dev
   // or in production, steam will inject the app ID when launching the game
   steamClient = steam.init();
-  contextBridge.exposeInMainWorld("ELECTRON_IS_STEAM", true);
-  contextBridge.exposeInMainWorld(
-    "ELECTRON_STEAM_NAME",
-    steamClient.localplayer.getName(),
-  );
+  contextBridge.exposeInMainWorld("ELECTRON_STEAM", {
+    appId: steamClient.utils.getAppId(),
+    userId: steamClient.localplayer.getSteamId(),
+    userName: steamClient.localplayer.getName(),
+  });
 } catch (e) {
   console.error("preload: Steam initialization failed. Is Steam running?");
   console.error(e);
