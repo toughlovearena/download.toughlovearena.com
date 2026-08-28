@@ -2,6 +2,7 @@
 // https://www.electronjs.org/docs/tutorial/quick-start
 
 const { ipcRenderer, contextBridge } = require("electron");
+const steam = require("steamworks.js");
 
 console.log("running preload...");
 
