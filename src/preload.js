@@ -27,7 +27,7 @@ try {
   steamClient = steam.init();
   contextBridge.exposeInMainWorld("ELECTRON_STEAM", {
     appId: steamClient.utils.getAppId(),
-    userId: steamClient.localplayer.getSteamId(),
+    userId: steamClient.localplayer.getSteamId().accountId,
     userName: steamClient.localplayer.getName(),
   });
 } catch (e) {
