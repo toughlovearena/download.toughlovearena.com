@@ -47,26 +47,7 @@ function createWindow() {
   ipcMain.handle('electron:fullscreen:false', () => mainWindow.setFullScreen(false));
 
   // and load the index.html of the app.
-  const loadPromise = mainWindow.loadFile('app/index.html');
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
-
-  // after load is complete, set window variables
-  loadPromise.then(() => {
-    // for debugging
-    // mainWindow.webContents.executeJavaScript(`window.ELECTRON_DEBUG_APP_CONFIG = ${JSON.stringify(appConfig)};`);
-    if (appConfig.isSteam) {
-      mainWindow.webContents.executeJavaScript(`window.ELECTRON_IS_STEAM = true;`);
-      if (steamClient) {
-        const steamName = steamClient.localplayer.getName();
-        mainWindow.webContents.executeJavaScript(`window.ELECTRON_STEAM_NAME = "${steamName}";`);
-      }
-    }
-  });
-
-  // return promise
-  return loadPromise;
+  return mainWindow.loadFile('app/index.html');
 }
 
 // This method will be called when Electron has finished

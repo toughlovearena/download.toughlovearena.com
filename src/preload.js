@@ -3,20 +3,39 @@
 
 const { ipcRenderer, contextBridge } = require("electron");
 
+console.log("running preload...");
+
 // https://www.electronjs.org/docs/latest/tutorial/tutorial-preload
-contextBridge.exposeInMainWorld('ELECTRON_API', {
-  setFullScreen: bool => ipcRenderer.invoke(
-    bool ? 'electron:fullscreen:true' : 'electron:fullscreen:false',
-  ),
+contextBridge.exposeInMainWorld("ELECTRON_API", {
+  setFullScreen: (bool) =>
+    ipcRenderer.invoke(
+      bool ? "electron:fullscreen:true" : "electron:fullscreen:false",
+    ),
   // https://stackoverflow.com/a/68483354
-  exit: () => ipcRenderer.invoke('quit-app'),
+  exit: () => ipcRenderer.invoke("quit-app"),
 });
+
+for (const dependency of ["chrome", "node", "electron"]) {
+  console.log(`${dependency}-version`, process.versions[dependency]);
+}
+
+let steamClient;
+try {
+  // steamworks.js will read the app ID from steam_appid.txt in local dev
+  // or in production, steam will inject the app ID when launching the game
+  steamClient = steam.init();
+  contextBridge.exposeInMainWorld("ELECTRON_IS_STEAM", true);
+  contextBridge.exposeInMainWorld(
+    "ELECTRON_STEAM_NAME",
+    steamClient.localplayer.getName(),
+  );
+} catch (e) {
+  console.error("preload: Steam initialization failed. Is Steam running?");
+  console.error(e);
+}
 
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('running preload...');
-  for (const dependency of ['chrome', 'node', 'electron']) {
-    console.log(`${dependency}-version`, process.versions[dependency]);
-  }
+window.addEventListener("DOMContentLoaded", () => {
+  // todo unused
 });
