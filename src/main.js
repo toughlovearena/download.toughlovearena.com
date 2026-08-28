@@ -2,12 +2,12 @@
 // https://www.electronjs.org/docs/tutorial/quick-start
 
 // Modules to control application life and create native browser window
-const os = require('os');
-const { app, BrowserWindow, ipcMain } = require('electron');
+const os = require("os");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const { autoUpdater } = require("electron-updater");
-const path = require('path');
-const appConfig = require('./appConfig');
-const steam = require('steamworks.js');
+const path = require("path");
+const appConfig = require("./appConfig");
+const steam = require("steamworks.js");
 
 const osPlatform = os.platform();
 // const isMac = osPlatform === "darwin";
@@ -21,7 +21,7 @@ try {
   steamClient = steam.init();
   steam.electronEnableSteamOverlay();
 } catch (e) {
-  console.error('Steam initialization failed. Is Steam running?');
+  console.error("Steam initialization failed. Is Steam running?");
   console.error(e);
 }
 
@@ -39,20 +39,24 @@ async function createWindow() {
     webPreferences: {
       contextIsolation: true,
       // devTools: !appConfig.isSteam,
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
     },
   });
 
-  mainWindow.setMenu(null)
-  await mainWindow.loadFile('app/index.html');
+  mainWindow.setMenu(null);
+  await mainWindow.loadFile("app/index.html");
 
-  ipcMain.handle('electron:fullscreen:true', () => mainWindow.setFullScreen(true));
-  ipcMain.handle('electron:fullscreen:false', () => mainWindow.setFullScreen(false));
+  ipcMain.handle("electron:fullscreen:true", () =>
+    mainWindow.setFullScreen(true),
+  );
+  ipcMain.handle("electron:fullscreen:false", () =>
+    mainWindow.setFullScreen(false),
+  );
 }
 
 // set some ipc handlers
 // https://stackoverflow.com/a/68483354
-ipcMain.handle('quit-app', () => app.quit());
+ipcMain.handle("quit-app", () => app.quit());
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -62,22 +66,27 @@ app.whenReady().then(async () => {
   if (appConfig.autoUpdate) {
     startCheckingForUpdates();
   }
-})
+});
 
 // Quit when all windows are closed
-app.on('window-all-closed', function () {
+app.on("window-all-closed", function () {
   app.quit();
-})
+});
 
 // https://samuelmeuli.com/blog/2019-04-07-packaging-and-publishing-an-electron-app/#auto-update
 function startCheckingForUpdates() {
   let downloadHasStarted = undefined;
   checkForUpdates();
-  setInterval(async () => {
-    if (downloadHasStarted) { return; }
-    downloadHasStarted = !!(await checkForUpdates());
-  }, 1000 * 60 * 5);
-};
+  setInterval(
+    async () => {
+      if (downloadHasStarted) {
+        return;
+      }
+      downloadHasStarted = !!(await checkForUpdates());
+    },
+    1000 * 60 * 5,
+  );
+}
 
 async function checkForUpdates() {
   try {
@@ -87,9 +96,13 @@ async function checkForUpdates() {
     if (result && result.downloadPromise) {
       const mainWindow = BrowserWindow.getAllWindows()[0];
       if (mainWindow) {
-        mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_STARTED = true;");
+        mainWindow.webContents.executeJavaScript(
+          "window.ELECTRON_DOWNLOAD_STARTED = true;",
+        );
         result.downloadPromise.then(() => {
-          mainWindow.webContents.executeJavaScript("window.ELECTRON_DOWNLOAD_COMPLETE = true;");
+          mainWindow.webContents.executeJavaScript(
+            "window.ELECTRON_DOWNLOAD_COMPLETE = true;",
+          );
         });
       }
       return result.downloadPromise;
