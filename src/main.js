@@ -34,7 +34,7 @@ function createWindow() {
     title: `Tough Love Arena | ${osPlatform}`, // overridden once page finishes loading
     width: 1280,
     height: 720,
-    fullscreen: true,
+    fullscreen: false,
     autoHideMenuBar: true,
     webPreferences: {
       // devTools: !appConfig.isSteam,
