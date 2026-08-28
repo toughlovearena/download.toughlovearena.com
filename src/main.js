@@ -43,8 +43,8 @@ function createWindow() {
   });
 
   // set some ipc handlers
-  ipcMain.handle('electron:fullscreen:true', () => win.setFullScreen(true));
-  ipcMain.handle('electron:fullscreen:false', () => win.setFullScreen(false));
+  ipcMain.handle('electron:fullscreen:true', () => mainWindow.setFullScreen(true));
+  ipcMain.handle('electron:fullscreen:false', () => mainWindow.setFullScreen(false));
 
   // and load the index.html of the app.
   const loadPromise = mainWindow.loadFile('app/index.html');
