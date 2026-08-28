@@ -5,6 +5,9 @@ const { ipcRenderer, contextBridge } = require("electron");
 
 // https://www.electronjs.org/docs/latest/tutorial/tutorial-preload
 contextBridge.exposeInMainWorld('ELECTRON_API', {
+  setFullScreen: bool => ipcRenderer.invoke(
+    bool ? 'electron:fullscreen:true' : 'electron:fullscreen:false',
+  ),
   // https://stackoverflow.com/a/68483354
   exit: () => ipcRenderer.invoke('quit-app'),
 });
