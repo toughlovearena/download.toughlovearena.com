@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld("ELECTRON_API", {
     ),
   // https://stackoverflow.com/a/68483354
   exit: () => ipcRenderer.invoke("quit-app"),
+  devtools: () => ipcRenderer.invoke("electron:devtools"),
 });
 
 let steamClient;

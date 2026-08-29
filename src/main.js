@@ -31,6 +31,9 @@ async function createWindow() {
     },
   });
 
+  ipcMain.handle("electron:devtools", () =>
+    mainWindow.webContents.openDevTools(),
+  );
   ipcMain.handle("electron:fullscreen:true", () =>
     mainWindow.setFullScreen(true),
   );
