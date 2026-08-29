@@ -7,23 +7,11 @@ const { app, BrowserWindow, ipcMain } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const path = require("path");
 const appConfig = require("./appConfig");
-const steam = require("steamworks.js");
 
 const osPlatform = os.platform();
 // const isMac = osPlatform === "darwin";
 // const isWindows = osPlatform === "win32";
 // const isLinux = osPlatform === "linux";
-
-let steamClient;
-try {
-  // steamworks.js will read the app ID from steam_appid.txt in local dev
-  // or in production, steam will inject the app ID when launching the game
-  steamClient = steam.init();
-  steam.electronEnableSteamOverlay();
-} catch (e) {
-  console.error("Steam initialization failed. Is Steam running?");
-  console.error(e);
-}
 
 async function createWindow() {
   // todo disable security for mod files?
