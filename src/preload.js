@@ -24,7 +24,19 @@ const steamEnv = process.env.STEAM_INFO;
 console.log("steam env:", steamEnv);
 if (steamEnv) {
   const steamInfo = JSON.parse(steamEnv);
-  contextBridge.exposeInMainWorld("ELECTRON_STEAM", steamInfo);
+  contextBridge.exposeInMainWorld("ELECTRON_STEAM", {
+    info: steamInfo,
+    achievement: {
+      activate: (code) =>
+        ipcRenderer.invoke("steam:achievement:activate", code),
+      check: (code) => ipcRenderer.invoke("steam:achievement:check", code),
+      clear: (code) => ipcRenderer.invoke("steam:achievement:clear", code),
+    },
+    stats: {
+      increment: (code) => ipcRenderer.invoke("steam:stats:increment", code),
+      reset: (code) => ipcRenderer.invoke("steam:stats:reset", code),
+    },
+  });
 }
 
 // All of the Node.js APIs are available in the preload process.

@@ -25,6 +25,26 @@ try {
     userName: steamClient.localplayer.getName(),
   };
   process.env.STEAM_INFO = JSON.stringify(steamInfo);
+  ipcMain.handle("steam:achievement:activate", (_event, code) =>
+    steamClient.achievement.activate(code),
+  );
+  ipcMain.handle("steam:achievement:check", (_event, code) =>
+    steamClient.achievement.isActivated(code),
+  );
+  ipcMain.handle("steam:achievement:clear", (_event, code) =>
+    steamClient.achievement.clear(code),
+  );
+  ipcMain.handle("steam:stats:increment", (_event, code) => {
+    const curr = steamClient.stats.getInt(code) ?? 0;
+    const next = curr + 1;
+    const success = steamClient.stats.setInt(code, next);
+    // todo maybe defer and batch later? but probably safe to spam for now
+    steamClient.stats.store();
+    return success ? next : curr;
+  });
+  ipcMain.handle("steam:stats:reset", (_event, code) =>
+    steamClient.stats.setInt(code, 0),
+  );
 } catch (e) {
   console.error("preload: Steam initialization failed. Is Steam running?");
   console.error(e);
