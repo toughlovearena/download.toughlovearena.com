@@ -2,7 +2,6 @@
 // https://www.electronjs.org/docs/tutorial/quick-start
 
 const { ipcRenderer, contextBridge } = require("electron");
-const steam = require("steamworks.js");
 
 console.log("running preload...");
 
@@ -21,19 +20,11 @@ contextBridge.exposeInMainWorld("ELECTRON_API", {
   devtools: () => ipcRenderer.invoke("electron:devtools"),
 });
 
-let steamClient;
-try {
-  // steamworks.js will read the app ID from steam_appid.txt in local dev
-  // or in production, steam will inject the app ID when launching the game
-  steamClient = steam.init();
-  contextBridge.exposeInMainWorld("ELECTRON_STEAM", {
-    appId: steamClient.utils.getAppId(),
-    userId: steamClient.localplayer.getSteamId().accountId,
-    userName: steamClient.localplayer.getName(),
-  });
-} catch (e) {
-  console.error("preload: Steam initialization failed. Is Steam running?");
-  console.error(e);
+const steamEnv = process.env.STEAM_INFO;
+console.log("steam env:", steamEnv);
+if (steamEnv) {
+  const steamInfo = JSON.parse(steamEnv);
+  contextBridge.exposeInMainWorld("ELECTRON_STEAM", steamInfo);
 }
 
 // All of the Node.js APIs are available in the preload process.
