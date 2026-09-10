@@ -159,9 +159,8 @@ jobs:
         run: tree
 
       - name: Unzip mac
-        uses: edgarrc/action-7z@v1
-        with:
-          args: 7z x -snld steam/mac/tla.zip -osteam/mac/
+        run: |
+          unzip steam/mac/tla.zip -d steam/mac/
 
       - name: Debug Tree
         run: tree
