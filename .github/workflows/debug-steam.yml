@@ -44,6 +44,11 @@ jobs:
         with:
           node-version-file: .nvmrc
 
+      - name: Install flatpak dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder
+
       - name: Prepare Electron app config (Unix)
         if: ${{ !startsWith(matrix.runs-on, 'windows') }}
         run: |
