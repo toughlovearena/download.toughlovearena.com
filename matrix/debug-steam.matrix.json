@@ -13,7 +13,7 @@
 }, {
   "label": "linux / debug-steam",
   "app-config": "steam.appConfig.js",
-  "electron-builder-args": "AppImage",
+  "electron-builder-args": "flatpak",
   "artifact-key": "steam-linux",
   "runs-on": "ubuntu-latest"
 }]
