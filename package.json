@@ -42,7 +42,7 @@
     },
     "linux": {
       "target": [
-        "AppImage"
+        "flatpak"
       ],
       "category": "Game"
     },
