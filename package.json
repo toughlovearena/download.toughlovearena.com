@@ -46,9 +46,6 @@
       ],
       "category": "Game"
     },
-    "toolsets": {
-      "appimage": "1.0.2"
-    },
     "files": [
       "**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
