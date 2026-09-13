@@ -158,9 +158,10 @@ jobs:
       - name: Debug Tree
         run: tree
 
-      - name: Unzip mac
+      - name: Unzip mac & linux
         run: |
           unzip steam/mac/tla.zip -d steam/mac/
+          unzip steam/linux/tla.zip -d steam/linux/
 
       - name: Debug Tree
         run: tree
