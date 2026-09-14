@@ -153,22 +153,23 @@ jobs:
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
-          mv "electron/linux/Tough Love Arena-${{ steps.vars.outputs.version }}.AppImage" "steam/linux/Tough Love Arena.AppImage"
+          mv "electron/linux/tough-love-arena-${{ steps.vars.outputs.version }}.zip" "steam/linux/tla.zip"
 
       - name: Debug Tree
         run: tree
 
-      - name: Unzip mac
-        uses: edgarrc/action-7z@v1
-        with:
-          args: 7z x steam/mac/tla.zip -osteam/mac/
+      - name: Unzip mac & linux
+        run: |
+          unzip steam/mac/tla.zip -d steam/mac/
+          unzip steam/linux/tla.zip -d steam/linux/
 
       - name: Debug Tree
         run: tree
 
-      - name: Cleanup mac zip
+      - name: Cleanup zips
         run: |
           rm steam/mac/tla.zip
+          rm steam/linux/tla.zip
 
       - name: Debug Tree
         run: tree
