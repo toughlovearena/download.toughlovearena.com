@@ -23,6 +23,7 @@ try {
     // cannot serialize entire "SteamID" struct because it contains a bigint
     userId: steamClient.localplayer.getSteamId().accountId,
     userName: steamClient.localplayer.getName(),
+    beta: steamClient.apps.currentBetaName(),
   };
   process.env.STEAM_INFO = JSON.stringify(steamInfo);
   ipcMain.handle("steam:achievement:activate", (_event, code) =>
