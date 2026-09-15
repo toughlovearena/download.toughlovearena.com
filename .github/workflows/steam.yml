@@ -72,8 +72,6 @@ jobs:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
           github_token: ${{ secrets.github_token }}
-          mac_certs: ${{ secrets.mac_certs }}
-          mac_certs_password: ${{ secrets.mac_certs_password }}
 
           build_script_name: fetch
 
@@ -142,16 +140,17 @@ jobs:
           echo "Renaming windows"
           mv "electron/windows/Tough Love Arena ${{ steps.vars.outputs.version }}.exe" "steam/windows/Tough Love Arena.exe"
           echo "Renaming linux"
-          mv "electron/linux/Tough Love Arena-${{ steps.vars.outputs.version }}.AppImage" "steam/linux/Tough Love Arena.AppImage"
+          mv "electron/linux/tough-love-arena-${{ steps.vars.outputs.version }}.zip" "steam/linux/tla.zip"
 
-      - name: Unzip mac
-        uses: edgarrc/action-7z@v1
-        with:
-          args: 7z x steam/mac/tla.zip -osteam/mac/
+      - name: Unzip mac & linux
+        run: |
+          unzip steam/mac/tla.zip -d steam/mac/
+          unzip steam/linux/tla.zip -d steam/linux/
 
-      - name: Cleanup mac zip
+      - name: Cleanup zips
         run: |
           rm steam/mac/tla.zip
+          rm steam/linux/tla.zip
 
       - name: Deploy to Steam
         uses: game-ci/steam-deploy@v3

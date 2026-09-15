@@ -13,7 +13,7 @@
 }, {
   "label": "linux / github",
   "app-config": "github.appConfig.js",
-  "electron-builder-args": "AppImage",
+  "electron-builder-args": "zip",
   "artifact-key": "",
   "runs-on": "ubuntu-latest"
 }]
