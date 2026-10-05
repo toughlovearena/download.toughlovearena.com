@@ -3,7 +3,7 @@
 
 // Modules to control application life and create native browser window
 const os = require("os");
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, shell } = require("electron");
 const { autoUpdater } = require("electron-updater");
 const path = require("path");
 const appConfig = require("./appConfig");
@@ -77,6 +77,9 @@ async function createWindow() {
   );
   ipcMain.handle("electron:fullscreen:false", () =>
     mainWindow.setFullScreen(false),
+  );
+  ipcMain.handle("electron:openDeepLink", (_event, url) =>
+    shell.openExternal(url),
   );
 
   mainWindow.setMenu(null);

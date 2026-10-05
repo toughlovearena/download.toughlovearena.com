@@ -11,6 +11,8 @@ for (const dependency of ["chrome", "node", "electron"]) {
 
 // https://www.electronjs.org/docs/latest/tutorial/tutorial-preload
 contextBridge.exposeInMainWorld("ELECTRON_API", {
+  openDeepLink: (url) =>
+    ipcRenderer.invoke("electron:openDeepLink", url).catch(console.error),
   setFullScreen: (bool) =>
     ipcRenderer.invoke(
       bool ? "electron:fullscreen:true" : "electron:fullscreen:false",
